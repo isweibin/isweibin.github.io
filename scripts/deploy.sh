@@ -12,14 +12,14 @@ if [ ! -d "$DIST" ]; then
 fi
 
 tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
 
-cp -a "$DIST"/* "$tmp"
+cp -a "$DIST"/. "$tmp"
 
-cd "$tmp"
+pushd "$tmp" > /dev/null
 
 git init
 git branch -M "$BRANCH"
-
 git remote add origin "$REPO"
 
 git add .
@@ -27,4 +27,4 @@ git commit -m "deploy: update site"
 
 git push -f origin "$BRANCH"
 
-rm -rf "$tmp"
+popd > /dev/null
