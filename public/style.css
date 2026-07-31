@@ -543,6 +543,7 @@ footer {
   text-align: center;
   color: var(--muted-color);
   font-size: 0.875em;
+  font-style: italic;
 }
 
 footer p {
