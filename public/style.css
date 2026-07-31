@@ -1,0 +1,600 @@
+/* === Variables === */
+/* Palette: Le Corbusier Polychromie Architecturale (1931 + 1959).
+   Light is built on blanc cassé + ocre; dark on terre d'ombre brûlée.
+   Dark scheme overrides these via prefers-color-scheme below. */
+:root {
+  --width: 720px;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  --border-xs: 1px;
+  --border-sm: 2px;
+  --border-md: 3px;
+  --border-lg: 4px;
+
+  --radius-sm: 2px;
+  --radius: 3px;
+
+  --font-text: "Roboto", "Noto Emoji", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
+  --font-scale: 1em;
+
+  /* Light scheme — blanc cassé / ocre. */
+  --background-color: #f5efe1;      /* blanc cassé, paper                        */
+  --heading-color: #1c1b18;         /* noir d'ivoire, ink                        */
+  --text-color: #3a342c;            /* terre d'ombre naturelle, deep             */
+  --link-color: #3a5a78;            /* bleu outremer, sunken                     */
+  --visited-color: #7a5a4a;         /* terre sienne brûlée, light                */
+  --code-background-color: #ebe2cc; /* same family as page, one step deeper      */
+  --code-color: #1c1b18;
+  --border-color: #cbbfa6;          /* ombre naturelle moyenne, light            */
+  --muted-color: #6f6759;           /* gris clair 31, warm                       */
+  --blockquote-color: var(--muted-color);
+  --blockquote-border: var(--border-color);
+  --mark-background-color: #d4b265; /* jaune vif 31, sunken — "used highlighter" */
+  --mark-color: #1c1b18;
+  --selection-background: var(--link-color);
+  --selection-color: var(--background-color);
+  --image-glow: color-mix(in srgb, var(--heading-color) 18%, transparent);
+
+  /* Alert accents.
+       For each type the *border* color and the *title* color are the same
+       (a single dynamique accent), and the bg is a near-paper wash with a
+       faint hint of the same hue. The information lives in the stripe and
+       title; the fill is intentionally subdued so the alert reads as
+       paper, lightly emphasized. */
+  --alert-note-bg: #ece4d2;     /* paper + cool wash              */
+  --alert-note-border: #3a5a78; /* bleu outremer                  */
+  --alert-tip-bg: #e8e2cc;      /* paper + green wash             */
+  --alert-tip-border: #5a7a4a;  /* vert anglais 59                */
+  --alert-imp-bg: #ebe1d2;      /* paper + violet wash            */
+  --alert-imp-border: #6e4c6a;  /* violet d'englise 59            */
+  --alert-warn-bg: #ecdfc2;     /* paper + amber wash             */
+  --alert-warn-border: #b87333; /* orange vif 31, ochre           */
+  --alert-cau-bg: #eadbcb;      /* paper + earth-red wash         */
+  --alert-cau-border: #8a4a3a;  /* terre sienne brûlée, ochre red */
+}
+
+:lang(zh-CN), :lang(zh-Hans), :lang(zh) {
+  --font-text: "Roboto", "Noto Sans SC", "Noto Emoji", sans-serif;
+}
+
+:lang(zh-TW), :lang(zh-HK), :lang(zh-Hant) {
+  --font-text: "Roboto", "Noto Sans TC", "Noto Emoji", sans-serif;
+}
+
+:lang(ja) {
+  --font-text: "Roboto", "Noto Sans JP", "Noto Emoji", sans-serif;
+}
+
+:lang(ko) {
+  --font-text: "Roboto", "Noto Sans KR", "Noto Emoji", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark scheme — terre d'ombre brûlée, "paper at night". */
+    --background-color: #1f1c17; /* terre d'ombre brûlée 59, deepest */
+    --heading-color: #ebe2cc;
+    --text-color: #c8bca3;
+    --link-color: #a8b8c8;
+    --visited-color: #c8a890;
+    --code-background-color: #2a2620;
+    --code-color: #ebe2cc;
+    --border-color: #4a4238;
+    --muted-color: #8a8170;
+    --blockquote-color: var(--muted-color);
+    --blockquote-border: var(--border-color);
+    --mark-background-color: #5a4820;
+    --mark-color: var(--text-color);
+    --image-glow: color-mix(in srgb, var(--text-color) 18%, transparent);
+
+    /* Dark alert tints (same dynamique accents, lifted). */
+    --alert-note-bg: #23211d;
+    --alert-note-border: #7a9ab8;
+    --alert-tip-bg: #22221c;
+    --alert-tip-border: #8aaa7a;
+    --alert-imp-bg: #23201f;
+    --alert-imp-border: #a08aa0;
+    --alert-warn-bg: #26221b;
+    --alert-warn-border: #d4a36a;
+    --alert-cau-bg: #27211e;
+    --alert-cau-border: #b88575;
+  }
+}
+
+/* === Base === */
+body {
+  font-family: var(--font-text);
+  font-size: var(--font-scale);
+  margin: auto;
+  padding: var(--space-lg);
+  max-width: var(--width);
+  text-align: left;
+  background-color: var(--background-color);
+  overflow-wrap: break-word;
+  line-height: 1.5;
+  color: var(--text-color);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* === Typography === */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+h1, h2 {
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+
+h3 {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
+h4, h5, h6 {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+:is(h1, h2, h3, h4, h5, h6):first-child {
+  margin-top: 0;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+}
+
+strong, b {
+  color: var(--heading-color);
+  font-weight: 600;
+}
+
+em, i {
+  color: var(--heading-color);
+}
+
+mark {
+  background-color: var(--mark-background-color);
+  color: var(--mark-color);
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-sm);
+}
+
+sup, sub {
+  font-size: 0.75em;
+  /* line-height: 0 keeps sup/sub from inflating the host line and
+       spreading paragraphs apart wherever they appear. */
+  line-height: 0;
+}
+
+del, s {
+  color: var(--muted-color);
+}
+
+time {
+  color: var(--muted-color);
+}
+
+.post-meta {
+  margin-bottom: var(--space-xl);
+}
+
+ul, ol {
+  padding-left: var(--space-lg);
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+}
+
+li {
+  margin-bottom: var(--space-xs);
+}
+
+li ul, li ol {
+  margin-top: var(--space-xs);
+  margin-bottom: 0;
+}
+
+blockquote {
+  border-left: var(--border-md) solid var(--blockquote-border);
+  color: var(--blockquote-color);
+  padding-left: var(--space-md);
+  margin: 0 0 var(--space-md) 0;
+  font-style: italic;
+}
+
+hr {
+  border: 0;
+  border-top: var(--border-xs) dashed var(--border-color);
+}
+
+::selection {
+  background: var(--selection-background);
+  color: var(--selection-color);
+}
+
+/* === Footnotes === */
+/* Footnotes are rendered in <section data-footnotes> with a heading.
+   The heading remains in the DOM for screen readers but is hidden visually. */
+section[data-footnotes] {
+  margin-top: var(--space-xl);
+  font-size: 0.875em;
+  color: var(--muted-color);
+  border-top: var(--border-xs) dashed var(--border-color);
+  padding-top: var(--space-md);
+}
+
+section[data-footnotes] h2 {
+  /* sr-only: visually hidden, still announced by screen readers. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+section[data-footnotes] ol {
+  margin-top: 0;
+}
+
+section[data-footnotes] li {
+  margin-bottom: var(--space-xs);
+}
+
+section[data-footnotes] p {
+  margin-bottom: var(--space-sm);
+}
+
+a.data-footnote-backref {
+  text-decoration: none;
+  margin-left: var(--space-xs);
+}
+
+/* === Table of Contents === */
+.table-of-contents {
+  font-size: 0.875em;
+}
+
+.table-of-contents ul, .table-of-contents li {
+  list-style-type: none;
+}
+
+/* === Embedded content === */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: var(--space-lg) auto;
+  border-radius: var(--radius);
+  filter: drop-shadow(0 0 var(--space-sm) var(--image-glow));
+}
+
+/* <img class="inline"> remains inline and is excluded from the lightbox. */
+img.inline {
+  display: inline-block;
+  margin: 0 var(--space-xs);
+  vertical-align: middle;
+  border-radius: 0;
+  filter: none;
+}
+
+/* Generic semantic figures; captions are written explicitly when needed. */
+article figure {
+  margin: var(--space-xl) 0;
+}
+
+article figure > img {
+  margin-top: 0;
+  margin-bottom: var(--space-sm);
+}
+
+article figcaption {
+  color: var(--muted-color);
+  font-size: 0.875em;
+  line-height: 1.6;
+  text-align: center;
+}
+
+article figcaption > :last-child {
+  margin-bottom: 0;
+}
+
+/* Article images open in a native dialog; clicking the dialog closes it. */
+article img[role="button"] {
+  cursor: zoom-in;
+}
+
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: var(--space-md);
+  border: 0;
+  background: transparent;
+  cursor: zoom-out;
+}
+
+.image-lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-lightbox::backdrop {
+  background: rgb(0 0 0 / 80%);
+}
+
+.image-lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  border-radius: 0;
+  filter: none;
+}
+
+table {
+  margin: var(--space-md) 0;
+  border-collapse: collapse;
+  border-top: var(--border-sm) solid var(--border-color);
+  border-bottom: var(--border-sm) solid var(--border-color);
+  font-size: 0.875em;
+}
+
+th, td {
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+}
+
+th {
+  font-weight: 600;
+  border-bottom: var(--border-xs) solid var(--border-color);
+}
+
+/* Wide tables scroll horizontally inside .table-wrapper; cell text never wraps.
+   This prioritizes row integrity over line breaks — intentional, not a bug. */
+.table-wrapper {
+  overflow-x: auto;
+  margin: var(--space-md) 0;
+}
+
+.table-wrapper table {
+  margin: 0;
+  width: max-content;
+  min-width: 100%;
+}
+
+/* === Code === */
+code, pre, time {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+code {
+  padding: 2px 5px;
+  background-color: var(--code-background-color);
+  color: var(--code-color);
+  border-radius: var(--radius);
+}
+
+pre {
+  padding: var(--space-md);
+  margin: var(--space-md) 0;
+  overflow-x: auto;
+  line-height: 1.5;
+  background-color: var(--code-background-color);
+  color: var(--code-color);
+  border-radius: var(--radius);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Block math (KaTeX): centered, scrollable. */
+math[display="block"] {
+  margin: var(--space-md) auto;
+  overflow-x: auto;
+  text-align: center;
+}
+
+/* Slim, on-palette scrollbars on overflowing blocks. */
+pre, math[display="block"] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+/* === GFM alerts === */
+/* remark-github-blockquote-alert renders > [!NOTE] etc. as
+   <div class="markdown-alert markdown-alert-{note,tip,important,warning,caution}">.
+   The plugin also injects an SVG octicon in the title; we hide it. */
+.markdown-alert {
+  border-left-width: var(--border-lg);
+  border-left-style: solid;
+  padding: var(--space-sm) var(--space-md);
+  margin: var(--space-md) 0;
+}
+
+.markdown-alert > p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-alert-title {
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.markdown-alert-title .octicon {
+  display: none;
+}
+
+.markdown-alert-note {
+  background: var(--alert-note-bg);
+  border-left-color: var(--alert-note-border);
+}
+.markdown-alert-note .markdown-alert-title {
+  color: var(--alert-note-border);
+}
+
+.markdown-alert-tip {
+  background: var(--alert-tip-bg);
+  border-left-color: var(--alert-tip-border);
+}
+.markdown-alert-tip .markdown-alert-title {
+  color: var(--alert-tip-border);
+}
+
+.markdown-alert-important {
+  background: var(--alert-imp-bg);
+  border-left-color: var(--alert-imp-border);
+}
+.markdown-alert-important .markdown-alert-title {
+  color: var(--alert-imp-border);
+}
+
+.markdown-alert-warning {
+  background: var(--alert-warn-bg);
+  border-left-color: var(--alert-warn-border);
+}
+.markdown-alert-warning .markdown-alert-title {
+  color: var(--alert-warn-border);
+}
+
+.markdown-alert-caution {
+  background: var(--alert-cau-bg);
+  border-left-color: var(--alert-cau-border);
+}
+.markdown-alert-caution .markdown-alert-title {
+  color: var(--alert-cau-border);
+}
+
+/* === Interactive === */
+a {
+  color: var(--link-color);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible, article img[role="button"]:focus-visible {
+  outline: var(--border-sm) solid var(--link-color);
+  outline-offset: var(--border-sm);
+  border-radius: var(--radius-sm);
+}
+
+/* === Layout components === */
+main {
+  padding-top: var(--space-xl);
+  line-height: 1.75;
+}
+
+.page-nav a {
+  position: fixed;
+  z-index: 10;
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--muted-color);
+  background-color: var(--background-color);
+  font-size: 0.875em;
+  white-space: nowrap;
+}
+
+.page-nav a:hover {
+  color: var(--link-color);
+}
+
+/* Keep navigation just outside the centered 720px content column. */
+.page-nav-home {
+  top: var(--space-lg);
+  right: calc(50% + var(--width) / 2 + var(--space-lg));
+}
+
+.page-nav-top {
+  left: calc(50% + var(--width) / 2 + var(--space-lg));
+  bottom: var(--space-lg);
+}
+
+footer {
+  padding: var(--space-xl) 0;
+  text-align: center;
+  color: var(--muted-color);
+  font-size: 0.875em;
+}
+
+footer p {
+  margin-bottom: 0;
+}
+
+/* Post list: "date | title" rows; stack vertically on narrow screens. */
+ul.blog-posts {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.blog-posts li {
+  display: flex;
+  margin-bottom: var(--space-sm);
+}
+
+ul.blog-posts li span {
+  flex: 0 0 160px;
+}
+
+ul.blog-posts li a:visited {
+  color: var(--visited-color);
+}
+
+/* === Responsive === */
+@media only screen and (max-width: 960px) {
+  .page-nav-home {
+    top: var(--space-md);
+    left: var(--space-md);
+    right: auto;
+  }
+
+  .page-nav-top {
+    right: var(--space-md);
+    bottom: var(--space-md);
+    left: auto;
+  }
+}
+
+/* The 720px breakpoint mirrors --width; @media can't read var(), so keep them in sync. */
+@media only screen and (max-width: 720px) {
+  ul.blog-posts li {
+    flex-direction: column;
+  }
+
+  ul.blog-posts li span {
+    flex: unset;
+  }
+
+  body {
+    padding: var(--space-md);
+  }
+}
