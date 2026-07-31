@@ -13,7 +13,7 @@ fi
 
 tmp=$(mktemp -d)
 
-cp -r "$DIST"/* "$tmp"
+cp -a "$DIST"/* "$tmp"
 
 cd "$tmp"
 
