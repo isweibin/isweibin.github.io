@@ -4,9 +4,18 @@ import { basename, join } from "node:path";
 import { access, cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { Glob } from "bun";
 
-import { PATHS, type Post } from "./lib/site";
+import type { Post } from "./lib/types";
 import { processMarkdown } from "./lib/markdown";
 import { renderHome, renderPost, renderSitemap } from "./lib/templates";
+
+const ROOT = process.cwd();
+
+const PATH = {
+  root: ROOT,
+  posts: join(ROOT, "posts"),
+  public: join(ROOT, "public"),
+  dist: join(ROOT, "dist"),
+};
 
 async function fileExists(path: string): Promise<boolean> {
   try {
@@ -23,9 +32,9 @@ async function build(): Promise<void> {
   const startedAt = performance.now();
   const built: BuiltPost[] = [];
 
-  for await (const relativePath of new Glob("posts/*.md").scan(PATHS.root)) {
+  for await (const relativePath of new Glob("posts/*.md").scan(PATH.root)) {
     const filename = basename(relativePath);
-    const raw = await readFile(join(PATHS.root, relativePath), "utf8");
+    const raw = await readFile(join(PATH.root, relativePath), "utf8");
     built.push({ post: await processMarkdown(raw, filename), filename });
   }
 
@@ -43,20 +52,20 @@ async function build(): Promise<void> {
   const posts = built.map(({ post }) => post);
   posts.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 
-  await rm(PATHS.dist, { recursive: true, force: true });
-  await mkdir(PATHS.dist, { recursive: true });
+  await rm(PATH.dist, { recursive: true, force: true });
+  await mkdir(PATH.dist, { recursive: true });
 
-  if (await fileExists(PATHS.public)) {
-    await cp(PATHS.public, PATHS.dist, { recursive: true });
+  if (await fileExists(PATH.public)) {
+    await cp(PATH.public, PATH.dist, { recursive: true });
   }
 
   await Promise.all(
     built.map(async ({ post, filename }) => {
-      const outputDir = join(PATHS.dist, post.id);
+      const outputDir = join(PATH.dist, post.id);
       await mkdir(outputDir, { recursive: true });
 
       const assetsDir = join(
-        PATHS.posts,
+        PATH.posts,
         `${filename.replace(/\.md$/, "")}.assets`,
       );
       if (await fileExists(assetsDir)) {
@@ -68,8 +77,8 @@ async function build(): Promise<void> {
   );
 
   await Promise.all([
-    writeFile(join(PATHS.dist, "index.html"), renderHome(posts)),
-    writeFile(join(PATHS.dist, "sitemap.xml"), renderSitemap(posts)),
+    writeFile(join(PATH.dist, "index.html"), renderHome(posts)),
+    writeFile(join(PATH.dist, "sitemap.xml"), renderSitemap(posts)),
   ]);
 
   const duration = (performance.now() - startedAt).toFixed(0);

@@ -1,4 +1,5 @@
-import { SITE, type Post } from "./site";
+import { SITE } from "./site";
+import type { Post } from "./types";
 
 function esc(value: string): string {
   return value

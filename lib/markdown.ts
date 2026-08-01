@@ -13,9 +13,13 @@ import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 
-import { ID_RE, SITE, type Post } from "./site";
+import { SITE } from "./site";
+import type { Post } from "./types";
 import type { Root as HastRoot } from "hast";
 import type { Root as MdastRoot } from "mdast";
+
+// Frontmatter IDs use lowercase letters and digits, separated by single hyphens.
+const ID_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 // Replace the first Typora-style [TOC] marker with an auto-generated <nav>.
 // Later markers remain literal text.
