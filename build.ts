@@ -1,3 +1,4 @@
+// Use a fixed timezone to ensure consistent output across environments.
 process.env.TZ ||= "Asia/Shanghai";
 
 import { basename, join } from "node:path";
