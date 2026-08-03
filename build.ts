@@ -13,9 +13,9 @@ const ROOT = process.cwd();
 
 const PATH = {
   root: ROOT,
+  pages: join(ROOT, "pages"),
   posts: join(ROOT, "posts"),
   public: join(ROOT, "public"),
-  dist: join(ROOT, "dist"),
 };
 
 async function fileExists(path: string): Promise<boolean> {
@@ -53,16 +53,16 @@ async function build(): Promise<void> {
   const posts = built.map(({ post }) => post);
   posts.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 
-  await rm(PATH.dist, { recursive: true, force: true });
-  await mkdir(PATH.dist, { recursive: true });
+  await rm(PATH.pages, { recursive: true, force: true });
+  await mkdir(PATH.pages, { recursive: true });
 
   if (await fileExists(PATH.public)) {
-    await cp(PATH.public, PATH.dist, { recursive: true });
+    await cp(PATH.public, PATH.pages, { recursive: true });
   }
 
   await Promise.all(
     built.map(async ({ post, filename }) => {
-      const outputDir = join(PATH.dist, post.id);
+      const outputDir = join(PATH.pages, post.id);
       await mkdir(outputDir, { recursive: true });
 
       const assetsDir = join(
@@ -78,8 +78,8 @@ async function build(): Promise<void> {
   );
 
   await Promise.all([
-    writeFile(join(PATH.dist, "index.html"), renderHome(posts)),
-    writeFile(join(PATH.dist, "sitemap.xml"), renderSitemap(posts)),
+    writeFile(join(PATH.pages, "index.html"), renderHome(posts)),
+    writeFile(join(PATH.pages, "sitemap.xml"), renderSitemap(posts)),
   ]);
 
   const duration = (performance.now() - startedAt).toFixed(0);

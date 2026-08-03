@@ -2,25 +2,25 @@
 
 set -e
 
-DIST="dist"
-REPO="git@github.com:isweibin/isweibin.github.io.git"
+PAGES="pages"
+REPOSITORY="git@github.com:isweibin/isweibin.github.io.git"
 BRANCH="gh-pages"
 
-if [ ! -d "$DIST" ]; then
-    echo "Error: output directory '$DIST' does not exist."
+if [ ! -d "$PAGES" ]; then
+    echo "Error: output directory '$PAGES' does not exist."
     exit 1
 fi
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
-cp -a "$DIST"/. "$tmp"
+cp -a "$PAGES"/. "$tmp"
 
 pushd "$tmp" > /dev/null
 
 git init
 git branch -M "$BRANCH"
-git remote add origin "$REPO"
+git remote add origin "$REPOSITORY"
 
 git add .
 git commit -m "deploy: update site"
