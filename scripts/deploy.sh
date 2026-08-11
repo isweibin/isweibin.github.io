@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 PAGES="pages"
 REPOSITORY="git@github.com:isweibin/isweibin.github.io.git"
 BRANCH="gh-pages"
 
-if [ ! -d "$PAGES" ]; then
-    echo "Error: output directory '$PAGES' does not exist."
+if [ ! -f "$PAGES/index.html" ]; then
+    echo "Error: '$PAGES/index.html' does not exist."
     exit 1
 fi
 
