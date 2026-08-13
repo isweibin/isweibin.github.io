@@ -2,15 +2,15 @@
 title: 用 iTwin Capture Modeler 生成无人机正射影像
 summary: 使用 iTwin Capture Modeler 2024 Update 1，将无人机航拍照片处理为带地理参考的正射影像和 DSM。内容包括空三、分辨率、坐标系统和 GeoTIFF 输出。
 id: itwin-capture-modeler-orthophoto
-updated: 2026-08-03 22:39
+updated: 2026-08-03 22:10
 lang: zh-CN
 ---
 
-无人机拍完一条航线，得到的只是许多彼此重叠的照片。它们可以逐张查看，却不能直接作为 GIS 或 CAD 底图。要得到一张连续、带坐标的影像，还要完成空三、正射纠正和影像拼接。
+无人机沿着一条航线拍完以后，SD 卡里得到的是许多彼此重叠的中心投影照片。它们可以逐张查看，却还不是地图：相机姿态、地形起伏和地物高度都会让照片中的位置与尺度发生变化。要把这些照片变成能放进 GIS 或 CAD 的连续底图，还要经过空三、正射纠正和影像镶嵌。
 
-iTwin Capture Modeler 的前身是 Bentley ContextCapture。本文以 2024 Update 1（24.1.8.680）为例，记录从导入照片到输出成果的过程。成果包括 GeoTIFF 正射影像和数字表面模型（Digital Surface Model，DSM）。
+iTwin Capture Modeler 的前身是 Bentley ContextCapture。本文以 2024 Update 1（24.1.8.680）为例，记录从导入照片到输出 GeoTIFF 正射影像和数字表面模型（Digital Surface Model，DSM）的完整过程。操作仍然是主线，但在空三、相机参数、正射纠正和输出分辨率这些关键位置，也会顺带解释软件究竟在解决什么问题。
 
-这组数据没有使用地面控制点和独立检查点。成果适合现场浏览、一般 GIS 叠加和 CAD 辅助参考。它的绝对位置与高程精度未经测量验证，不能替代测绘成果，也不宜用于放样、界址、精密量测和工程结算。
+这组数据没有使用地面控制点，也没有保留独立检查点。最终成果适合现场浏览、一般 GIS 叠加和 CAD 辅助参考；它的绝对位置与高程精度没有经过独立测量验证，因此不能替代正式测绘成果，也不宜用于放样、界址、精密量测和工程结算。
 
 [TOC]
 
@@ -78,9 +78,17 @@ Master 提交任务后，Engine 才会开始计算。Engine 没有运行时，�
 
 ## 完成空三
 
-空中三角测量（Aerotriangulation，AT；下文简称「空三」）用于建立照片之间的几何关系，并估计相机位姿。后续重建都以空三结果为基础。
+空中三角测量（Aerotriangulation，AT；下文简称「空三」）是整套流程的几何基础。后面的正射纠正和 DSM 重建，都建立在空三求得的照片关系和相机参数之上。
 
 在 Block 页面右上角单击「Submit Aerotriangulation」。软件随后打开 Aerotriangulation Definition 对话框。
+
+### 空三在求什么
+
+照片之间存在重叠区域时，软件会在不同照片中寻找能够重复识别的特征，也就是连接点（Tie Point）。同一个空间点被多张照片从不同位置看到以后，就会同时约束相机的位置、姿态和场景的三维结构。
+
+空三并不只是「给每张照片算一个坐标」。更准确地说，它会在大量连接点、相机位姿和部分相机内部参数之间做整体调整，使求得的三维点重新投影回照片时，尽量落到实际观测到的位置。投影位置与观测位置之间的差异，就是常见的重投影误差。
+
+照片本身首先建立的是一个摄影测量网络；照片 GNSS、RTK/PPK、控制点等外部信息，再决定这个网络怎样进入现实坐标系。理解这一点以后，下面的「Poses and tie points」「Optical parameters」和「Positioning/Georeferencing」就不再是几组互不相关的设置。
 
 ### 选择本地或云端处理
 
@@ -99,11 +107,9 @@ Master 提交任务后，Engine 才会开始计算。Engine 没有运行时，�
 
 ![aerotriangulation-georeferencing](./2026-08-03-itwin-capture-modeler-orthophoto.assets/aerotriangulation-georeferencing.webp)
 
-「Adjustment constraints」用于参与空三平差的高精度约束。可靠的 RTK/PPK 坐标、地面控制点或精确点云，可以放在这一组中。普通无人机照片中的原始定位通常不应当作为高精度约束。
+「Adjustment constraints」用于把高精度外部信息加入空三平差。可靠的 RTK/PPK 照片位置、地面控制点或精确点云，可以作为这类约束。普通消费级无人机照片中的原始 GNSS 定位通常不适合直接按高精度控制数据处理。
 
-「Final rigid registration」用于空三末期的整体配准。它会通过平移、旋转和统一比例缩放，将照片块放到目标位置。这组照片只有普通定位信息，因此选择「Photo positioning metadata」。这一步不会把普通 GNSS 数据变成高精度测量数据。
-
-Bentley 对这两类约束有专门说明，详见[《iTwin Capture Modeler Aerotriangulation Settings》](https://bentleysystems.service-now.com/community?id=kb_article_view&sysparm_article=KB0041917)。
+「Final rigid registration」用于空三末期的整体配准。它主要通过平移、旋转和统一尺度，把已经求得的照片块放到目标位置。本文照片只有普通定位信息，因此在这里选择「Photo positioning metadata」。这能让 Block 获得大致正确的地理位置和朝向，但不会把普通 GNSS 变成高精度测量数据。
 
 这组数据没有使用人工标靶，因此不启用「Use targets」。如果现场布设了软件支持的标靶，应按照实际采集方案设置。
 
@@ -117,20 +123,20 @@ Bentley 对这两类约束有专门说明，详见[《iTwin Capture Modeler Aero
 
 照片带有完整的位置和方向信息，因此选择「Adjust」。四种策略的含义如下。
 
-- Compute：重新计算照片位姿和连接点。照片定位是否参与最终地理配准，仍由前一页的设置决定。因此，Compute 不等于完全忽略 EXIF 定位。
-- Adjust：以已有的完整位姿为基础，根据连接点进一步调整。照片同时具备位置和方向信息时，适合使用这一项。
-- Extend：在已有空三结果上继续计算。它可以加入新照片、连接未进入主连接体的照片，或尝试合并分离的组件。Extend 依赖已有结果，不适用于首次计算。
-- Lock：保留已有位姿和连接点，不再调整或重新计算。当前空三结果已经确认可用时，才考虑使用。
-
-四种策略的详细说明见 Bentley 文档：[《Choosing the Right Strategy for Aerotriangulation》](https://bentleysystems.service-now.com/community?id=kb_article_view&sysparm_article=KB0043014)。
+- Compute：从头计算照片位姿和连接点，不沿用已有 pose 作为位姿求解初值。照片定位是否继续作为 Adjustment constraint 或 Final rigid registration 的地理参考来源，仍由前一页的设置决定。
+- Adjust：以已有的完整位姿为基础，根据连接点进一步调整。照片同时具有位置和方向初值时，可以使用这一项。
+- Extend：在已有空三结果上继续计算，用于加入尚未求解的照片、扩展已有组件或继续连接新的影像。它依赖已有结果，不适用于首次计算。
+- Lock：保留已有位姿和连接点，不再重新调整。只有当前结果已经确认可用，并且确实希望固定它时才考虑使用。
 
 计算密度和配对模式先保留默认值。默认空三结果不理想时，再结合航线、重叠率和场景特征调整参数。
 
 **（2）Optical parameters**
 
-这里选择「Adjust main parameters」。软件会根据照片匹配结果，调整主要的相机内参数和畸变参数。没有经过专门标定的普通无人机相机可以先使用这一设置。
+这里选择「Adjust main parameters」。这一步可以理解成空三中的相机自标定：软件不仅调整「相机在哪里、朝哪里看」，还允许根据整套摄影测量网络重新估计部分焦距、主点和镜头畸变参数。本文没有导入独立的相机标定成果，因此允许软件调整主要光学参数。
 
-已经导入可靠的相机标定参数时，可以选择「Lock all parameters」。不应在没有标定依据的情况下，盲目锁定全部参数。
+已经有可靠、并且与本次拍摄状态一致的相机标定参数时，可以考虑「Lock all parameters」或更保守的调整方式。没有标定依据时，不应为了追求「参数稳定」而盲目锁死全部光学参数。
+
+相机自标定也会受到航摄几何影响。纯垂直、单一方向、地形较平的航摄网络，在某些情况下会让径向畸变与场景形变更难区分，表现为系统性的弯曲或漂移。出现这类问题时，应同时检查照片覆盖与观察方向、相机标定和外部控制，而不是只在空三对话框里反复试参数。
 
 **（3）其他设置**
 
@@ -142,7 +148,7 @@ Bentley 对这两类约束有专门说明，详见[《iTwin Capture Modeler Aero
 
 空三完成后，Block 的 Overview 页签会显示统计信息。
 
-原始照片目录共有 542 张。第一次计算后，照片没有全部连成一个主连接体。我重新检查并整理了照片集，后续截图使用 309 张照片的结果。这个处理适用于本项目，不应把「删除未连接照片」当成固定步骤。
+原始照片目录共有 542 张。第一次计算后，照片没有全部连成一个主连接体。我重新检查并整理了数据，后续操作只使用整理后的 309 张照片。这里没有把数量变化归结为某一个固定参数；它只是这组项目数据经过筛选后的结果，也不应把「删除未连接照片」理解成空三失败后的通用处理办法。
 
 遇到类似情况时，可以依次检查以下问题：
 
@@ -165,7 +171,7 @@ Bentley 对这两类约束有专门说明，详见[《iTwin Capture Modeler Aero
 - 「Resolution ranges from 0.0058 meters to 0.0071 meters」表示估算 GSD 为 5.8～7.1 mm。这个数值可用于选择输出像元尺寸，不代表绝对位置精度。
 - 「Block has color correction using machine annotation」表示软件已经应用机器学习色彩校正。
 
-用于浏览时，可以继续进入重建。用于测量时，还应检查重投影误差、控制点误差、独立检查点误差和局部变形。
+这些统计主要告诉我们「照片有没有连起来」「估算采样尺度大概是多少」「Block 是否已经地理参考」，还不能替代对空三质量的完整检查。用于测量时，还应查看重投影误差、控制点与检查点误差、局部变形，以及不同区域的网络几何是否稳定。本文没有独立检查点，因此后面只把成果作为参考底图使用。
 
 ## 建立 Orthomosaic 重建
 
@@ -179,6 +185,14 @@ Bentley 对这两类约束有专门说明，详见[《iTwin Capture Modeler Aero
 - 「Orthomosaic」用于正射影像和 DSM。
 
 这里选择「Orthomosaic」。新节点的默认名称类似 `Orthophoto/DSM_1`，主要参数位于「Spatial Framework」页签。
+
+### 正射纠正在纠什么
+
+普通航拍照片属于中心投影。同一块地面如果离相机更远，照片上的尺度就会变小；地形起伏和建筑物高度还会让地物相对于投影中心发生位移。把多张照片直接按视觉效果拼在一起，可以得到一张全景式大图，却不能因此获得统一地图尺度。
+
+Orthomosaic 的关键是「正射纠正」。软件利用空三得到的相机位置、姿态和光学参数，再结合由影像恢复的场景表面，把原始照片重新投影到统一的地图坐标中。不同照片的有效区域随后再经过选择和镶嵌，形成最终正射影像。
+
+因此，正射影像并不是普通照片的平面拼接，DSM 也不是完全无关的附属成果。两者都依赖同一套场景几何：正射纠正要知道被摄表面在哪里，DSM 则直接记录这套表面的高程。
 
 ### 裁剪重建范围
 
@@ -196,14 +210,16 @@ Bentley 对这两类约束有专门说明，详见[《iTwin Capture Modeler Aero
 
 ![spatial-framework-detail](./2026-08-03-itwin-capture-modeler-orthophoto.assets/spatial-framework-detail.webp)
 
-「Resolution」的单位是 m/pixel，表示一个输出像素对应的地面距离。GSD 则表示源照片中的一个像素对应多大的地面范围。选择输出分辨率时，应同时考虑以下因素：
+「Resolution」的单位是 m/pixel，表示最终栅格一个像元对应的地面距离。它和源照片的 GSD 有联系，却不是同一个概念。选择输出分辨率时，应同时考虑以下因素：
 
 - 源照片的有效 GSD；
 - 影像清晰度和重叠质量；
 - 成果用途；
 - 输出尺寸和下游软件的承受能力。
 
-这里还要区分像元尺寸和位置精度。像元尺寸影响影像细节和文件大小；位置精度取决于照片定位、控制点、平差质量和坐标基准。把 Resolution 调得更小，不会提高坐标精度。输出像元尺寸小于有效 GSD，也只会增加像素数量，不会凭空生成细节。
+这里最好把三个层次彻底分开：源照片 GSD 描述原始影像的地面采样尺度；Orthomosaic 的 Resolution 是人为选择的输出栅格采样间隔；成果的位置精度则取决于照片定位、摄影测量网络、控制数据和平面 / 垂直坐标基准。
+
+把 Resolution 调得更小，不会提高坐标精度。输出像元尺寸明显小于有效 GSD，也只会增加像素数量，不会凭空生成新的地面细节。反过来，选择比源数据更粗的输出像元，会牺牲部分影像细节，但不等于把模型的几何精度简单「降成」这个像元尺寸。
 
 下面的取舍只适用于这组数据，不是通用标准。
 
@@ -307,7 +323,7 @@ $$
 1. 合并后的 TIFF 是否会接近普通 TIFF 的约 4 GiB 限制。
 2. 目标软件是否支持 BigTIFF 和大尺寸栅格。
 
-BigTIFF 可以保存超过 4 GiB 的 TIFF，但部分 CAD 工作流不支持这种格式。准备在 AutoCAD 中使用时，如果合并文件可能过大，应保留分块输出。Autodesk 对此有专门说明，详见[《Loading a GeoTIFF in AutoCAD Map 3D or Civil 3D fails》](https://www.autodesk.com/support/technical/article/caas/sfdcarticles/sfdcarticles/Prequisites-GeoTIFFs-as-DEM-not-documented.html)。
+BigTIFF 可以保存超过 4 GiB 的 TIFF，但部分 CAD 工作流对这种格式支持有限。准备在 AutoCAD 中使用时，如果合并文件可能过大，应优先确认目标软件的 TIFF / BigTIFF 兼容性；必要时保留分块输出。
 
 估算结果显示，正射影像和 DSM 都远低于 4 GiB。因此，这里勾选「Merge output parts」。这只是本文项目的选择，不是固定阈值。
 
@@ -368,12 +384,7 @@ World File 不包含完整的坐标系统转换信息。影像使用 UTM 51N，�
 
 奥维互动地图可以导入 TIFF 航拍图。输出成果应使用软件能够识别的公共坐标系统。不要使用只在项目内部有意义的 Local ENU。
 
-具体操作可参考奥维官方文档：
-
-- [《如何导入 TIFF 格式的航拍图》](https://www.ovital.com/134111-2/)
-- [《手机端如何导入 TIFF 格式航拍图》](https://www.ovital.com/138654-2/)
-
-大文件加载较慢时，可以先在 GIS 软件中裁剪、重采样或切片，再导入奥维。
+大文件加载较慢时，可以先在 GIS 软件中裁剪、重采样或切片，再导入奥维。相关官方说明列在文末「相关资料」。
 
 ### 导入 GIS 软件
 
@@ -388,9 +399,18 @@ QGIS、ArcGIS Pro 和 Global Mapper 等 GIS 软件都能读取 GeoTIFF 的地理
 
 ### 使用 DSM
 
-DSM 表示可见地表，通常包含建筑物、树木、车辆和其他地物。它适合查看地表起伏，也可以用于坡度、坡向等分析。
+DSM 表示可见表面，通常同时包含地面、建筑物、树木、车辆和其他地物。它适合查看场景起伏，也可以作为坡度、坡向等分析的输入。
 
-要提取真实地面高程，需要先进行地面点分类。然后生成数字地形模型（Digital Terrain Model，DTM）。生成等高线或计算土方前，还要确认垂直基准和成果精度。没有这些步骤，不应直接把 DSM 用于土方结算。
+如果需要的是裸地高程，还要经过地面点分类或其他滤波处理，才能进一步生成数字地形模型（Digital Terrain Model，DTM）。生成等高线、计算土方或与工程高程叠加以前，还应确认垂直基准和成果精度。本文这组数据没有独立高程检查，因此不能把输出 DSM 直接当成工程测量高程成果。
+
+## 相关资料
+
+- [Bentley：iTwin Capture Modeler Aerotriangulation Settings](https://bentleysystems.service-now.com/community?id=kb_article_view&sysparm_article=KB0041917)
+- [Bentley：Choosing the Right Strategy for Aerotriangulation in iTwin Capture Modeler](https://bentleysystems.service-now.com/community?id=kb_article_view&sysparm_article=KB0043014)
+- [Autodesk：Loading a GeoTIFF in AutoCAD Map 3D or Civil 3D fails](https://www.autodesk.com/support/technical/article/caas/sfdcarticles/sfdcarticles/Prequisites-GeoTIFFs-as-DEM-not-documented.html)
+- [奥维互动地图：如何导入 TIFF 格式的航拍图](https://www.ovital.com/134111-2/)
+- [奥维互动地图：手机端如何导入 TIFF 格式航拍图](https://www.ovital.com/138654-2/)
+- [INSGEO：在 AutoCAD 中按地理坐标插入 GeoTIFF](/insgeo-autocad-georeferenced-images/)
 
 ---
 
