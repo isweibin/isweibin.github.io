@@ -68,7 +68,7 @@ function layout(
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="stylesheet" href="${esc(getGoogleFontsUrl(lang))}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body id="top">${navigation}
   <main>
