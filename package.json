@@ -1,10 +1,5 @@
 {
   "name": "isweibins-blog",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "bun build.ts"
-  },
   "dependencies": {
     "gray-matter": "^4.0.3",
     "mdast-util-toc": "^7.1.0",
@@ -21,7 +16,12 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0"
   },
+  "private": true,
+  "scripts": {
+    "build": "bun build.ts"
+  },
+  "type": "module",
   "devDependencies": {
-    "bun-types": "^1.4.0"
+    "@types/bun": "^1.4.0"
   }
 }
