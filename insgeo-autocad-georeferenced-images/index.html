@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>INSGEO：在 AutoCAD 中批量导入地理配准影像 | isweibin&#39;s Blog</title>
+  <meta name="description" content="INSGEO.lsp 是一个用于 AutoCAD for Windows 的 AutoLISP 脚本，可批量选择栅格影像，读取同目录下的 World File 或 ERS 头文件，并将影像按坐标插入 ModelSpace。本文介绍脚本的使用方法、配准范围、UNC 网络路径支持以及项目交付时需要注意的问题。">
+  <meta property="og:description" content="INSGEO.lsp 是一个用于 AutoCAD for Windows 的 AutoLISP 脚本，可批量选择栅格影像，读取同目录下的 World File 或 ERS 头文件，并将影像按坐标插入 ModelSpace。本文介绍脚本的使用方法、配准范围、UNC 网络路径支持以及项目交付时需要注意的问题。">
+  <meta property="og:title" content="INSGEO：在 AutoCAD 中批量导入地理配准影像 | isweibin&#39;s Blog">
+  <meta property="og:url" content="https://isweibin.com/insgeo-autocad-georeferenced-images/">
+  <meta property="og:type" content="article">
+  <link rel="canonical" href="https://isweibin.com/insgeo-autocad-georeferenced-images/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,600;1,400;1,600&amp;family=Roboto+Mono:ital,wght@0,400;0,600;1,400;1,600&amp;family=Noto+Emoji:wght@400;600&amp;family=Noto+Sans+SC:wght@400;600&amp;display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body id="top">
+  <nav class="page-nav" aria-label="Page navigation">
+    <a class="page-nav-home" href="/">← Home</a>
+    <a class="page-nav-top" href="#top">↑ Top</a>
+  </nav>
+  <main>
+    <article>
+      <h1>INSGEO：在 AutoCAD 中批量导入地理配准影像</h1>
+      <p class="post-meta"><i><time datetime="2026-08-01T15:34:00.000Z">2026-08-01 23:34</time></i></p>
+      <p>在 AutoCAD 中使用航拍图、正射影像或扫描图时，附着一张影像并不复杂。真正耗时的是批量处理：每张图都要选择文件、确定位置、设置比例和旋转。资料一旦变成几十张 TIF、JPG 或 PNG，再配上相应的 World File 或 ERS，重复操作很快就会成为负担。</p>
+<p>INSGEO.lsp 用来处理这类工作。它可以一次选择多张栅格影像，逐张查找配套的坐标文件，并把解析成功的影像插入 ModelSpace。多文件窗口还可以跨目录累计文件，并支持常见的 Windows UNC/NetBIOS 网络共享路径。</p>
+<p>需要先说明的是，INSGEO 只是一个批量插入与配准工具，不负责坐标转换。它不会识别或转换坐标参考系，也不会读取 GeoTIFF 内嵌的地理信息。使用前应确认图纸、影像和配准文件采用相同的坐标系与单位。</p>
+<nav class="table-of-contents"><ul>
+<li><a href="#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4">适用范围</a></li>
+<li><a href="#%E5%8A%A0%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8">加载和使用</a></li>
+<li><a href="#%E9%85%8D%E5%87%86%E6%96%87%E4%BB%B6%E6%80%8E%E6%A0%B7%E5%8C%B9%E9%85%8D">配准文件怎样匹配</a></li>
+<li><a href="#world-file-%E7%9A%84%E5%A4%84%E7%90%86">World File 的处理</a></li>
+<li><a href="#ers-%E7%9A%84%E5%A4%84%E7%90%86">ERS 的处理</a></li>
+<li><a href="#%E5%9C%A8%E7%BD%91%E7%BB%9C%E5%85%B1%E4%BA%AB%E4%B8%AD%E6%89%B9%E9%87%8F%E9%80%89%E6%8B%A9">在网络共享中批量选择</a></li>
+<li><a href="#dwg-%E5%85%B1%E4%BA%AB%E4%B8%8E%E4%BA%A4%E4%BB%98">DWG 共享与交付</a></li>
+<li><a href="#%E8%84%9A%E6%9C%AC%E5%86%85%E9%83%A8%E6%B5%81%E7%A8%8B">脚本内部流程</a></li>
+<li><a href="#%E8%AE%B8%E5%8F%AF%E8%AF%B4%E6%98%8E">许可说明</a></li>
+<li><a href="#%E4%B8%8B%E8%BD%BD">下载</a></li>
+<li><a href="#%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99">相关资料</a></li>
+</ul></nav>
+<h2 id="适用范围">适用范围</h2>
+<p>脚本允许选择以下影像：</p>
+<ul>
+<li>TIF / TIFF</li>
+<li>JPG / JPEG</li>
+<li>PNG</li>
+<li>ECW</li>
+</ul>
+<p>实际能否插入，仍取决于所用 AutoCAD 版本对影像格式和编码方式的支持。</p>
+<p>脚本查找以下配准文件：</p>
+<ul>
+<li>ER Mapper 头文件：ERS</li>
+<li>常见 World File：TFW、JGW、PGW、EWW、WLD</li>
+<li>对应的长扩展名：TIFW、TIFFW、JPGW、JPEGW、PNGW、ECWW</li>
+<li>带 x 后缀的常见形式，例如 TFWX、JGWX</li>
+</ul>
+<p>当前版本使用 AutoLISP/ActiveX，因此面向 <strong>AutoCAD for Windows</strong>。AutoCAD for Mac、Web 和 AutoCAD LT 不在本文的支持范围内。</p>
+<p>坐标处理还有两项限制：</p>
+<ol>
+<li>World File 可以包含旋转，也可以使用不同的 X、Y 像元尺寸，但像素的行轴和列轴必须正交。带剪切、镜像或退化变换的文件会被拒绝，因为 AutoCAD 的 RasterImage 对象不能安全表达这类仿射变换。</li>
+<li>ERS 目前只处理北向上的 RegistrationCoord 与 CellInfo。Rotation 不为零时，脚本会跳过该文件。</li>
+</ol>
+<h2 id="加载和使用">加载和使用</h2>
+<p>把 INSGEO.lsp 拖入 AutoCAD，或者执行：</p>
+<pre><code class="language-lisp">(load "C:/path/to/INSGEO.lsp")
+</code></pre>
+<p>加载成功后，命令行会显示：</p>
+<pre><code class="language-text">INSGEO loaded. Type INSGEO to insert geo-referenced image(s).
+</code></pre>
+<p>输入 <code>INSGEO</code>，会打开多文件选择窗口：</p>
+<p><img src="/insgeo-autocad-georeferenced-images/multi-file-dialog.webp" alt="INSGEO 多文件选择窗口"></p>
+<p>窗口分为左右两栏：</p>
+<ul>
+<li>左侧显示当前目录中的文件和子目录；</li>
+<li>在左侧使用 Ctrl 或 Shift 选择多张影像，然后点击 <strong>Add Files</strong>；</li>
+<li>右侧显示本次准备插入的文件，可以切换到其他目录继续追加；</li>
+<li>在右侧选中文件后，点击 <strong>Remove Files</strong> 可以将其移除；</li>
+<li>确认列表无误后点击 <strong>OK</strong>。</li>
+</ul>
+<p>脚本会逐张处理，并在命令行显示进度：</p>
+<pre><code class="language-text">[1/3] ortho_01
+  Inserted using ortho_01.tfw.
+[2/3] ortho_02
+  Inserted using ortho_02.tfw.
+[3/3] ortho_03
+  Inserted using ortho_03.ers.
+Done. 3 image(s) inserted.
+</code></pre>
+<p>如果某张影像处理失败，最终统计会分别显示成功数和失败数。只有完成配准并成功更新的影像才会计入成功数。解析失败、格式不支持或对象更新失败时，脚本会尝试删除刚创建的 RasterImage，避免在图中留下未配准的对象。</p>
+<p>全部处理完成后，视图会缩放到最后一张成功插入的影像。</p>
+<h2 id="配准文件怎样匹配">配准文件怎样匹配</h2>
+<p>脚本会先按影像文件名，在同一目录中自动查找配准文件。以 <code>ortho.tif</code> 为例，查找顺序为：<code>ortho.ers</code> → <code>ortho.tfw</code> → <code>ortho.tfwx</code> → <code>ortho.tifw</code> → <code>ortho.wld</code>。</p>
+<p>JPG、PNG 和 ECW 分别使用 JGW、PGW 和 EWW 的命名规则。</p>
+<p>如果没有找到相应文件，脚本会打开文件选择窗口，让用户手动指定一个受支持的配准文件。取消选择时，当前影像会被跳过，列表中的其他影像仍会继续处理。</p>
+<p>这里需要特别注意：<strong>脚本只读取旁车文件，不读取 GeoTIFF 内嵌坐标。</strong> 即使一个 GeoTIFF 已经包含完整地理信息，只要旁边没有受支持的 World File 或 ERS，仍然需要手动提供配准文件。</p>
+<h2 id="world-file-的处理">World File 的处理</h2>
+<p>World File 不是「两个比例加两个角度」，而是一个六参数仿射变换。文件中的六行参数依次为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span></span></span></span>：</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>x</mi><mo>=</mo><mi>A</mi><mo>⋅</mo><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">n</mi></mrow><mo>+</mo><mi>B</mi><mo>⋅</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">w</mi></mrow><mo>+</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">x = A \cdot \mathrm{column} + B \cdot \mathrm{row} + C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathrm">column</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">row</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span></span>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>y</mi><mo>=</mo><mi>D</mi><mo>⋅</mo><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">n</mi></mrow><mo>+</mo><mi>E</mi><mo>⋅</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">w</mi></mrow><mo>+</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">y = D \cdot \mathrm{column} + E \cdot \mathrm{row} + F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathrm">column</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">row</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span></span></span></span></span>
+<p>其中，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span></span></span></span> 表示左上像素<strong>中心</strong>的世界坐标。AutoCAD RasterImage 使用的是影像左下外角，因此脚本还要结合影像行数、两个像素轴向量以及半个像素的偏移，换算出正确的插入原点。</p>
+<p>当前实现会检查两个像素轴是否正交，同时检查变换的行列式方向：</p>
+<ul>
+<li>普通北向上影像可以插入；</li>
+<li>旋转影像可以插入；</li>
+<li>X、Y 像元尺寸不同也可以插入；</li>
+<li>带剪切或镜像的变换会报错并跳过。</li>
+</ul>
+<p>这种处理比直接把 World File 的第二行当成旋转角复杂，但可以避免旋转影像在没有明显报错的情况下被放到错误位置。</p>
+<h2 id="ers-的处理">ERS 的处理</h2>
+<p>ERS 是文本头文件，字段顺序并不固定。脚本不会按照固定行号读取，而是扫描字段名，主要使用：</p>
+<ul>
+<li>Eastings / Northings，或 MetersX / MetersY</li>
+<li>Xdimension / Ydimension</li>
+<li>RegistrationCellX / RegistrationCellY</li>
+<li>Rotation</li>
+</ul>
+<p>RegistrationCellX 和 RegistrationCellY 表示配准坐标对应影像中的列、行位置。脚本先把这个配准点换算到影像左上外角，再计算 AutoCAD 所需的左下原点。</p>
+<p>如果 ERS 中只有 Longitude / Latitude，脚本也可以读取十进制度或度分秒数值，但只会将它们直接作为图形单位使用，并在命令行给出警告。脚本不会把经纬度投影为米制坐标；除非图纸本身采用同一套角度坐标，否则不应这样使用。</p>
+<h2 id="在网络共享中批量选择">在网络共享中批量选择</h2>
+<p>团队共用影像时，可以把影像和配准文件放在 SMB 共享目录，例如：</p>
+<pre><code class="language-text">\\SERVER\projects\site-a\imagery
+</code></pre>
+<p>INSGEO 对普通 Windows UNC/NetBIOS 路径做了额外处理。目录枚举会优先使用 Scripting.FileSystemObject，失败时再回退到 AutoLISP 的目录函数；向上导航会停在 <code>\\server\share</code>，不会进入无效的 <code>\\server</code> 层级。</p>
+<p>这项处理针对常规 UNC 路径，不保证支持 <code>\\?\UNC\...</code> 这类扩展长度路径。</p>
+<p>网络共享能否访问，仍由 Windows 权限和当前网络环境决定。遇到目录为空或无法进入时，可以先在资源管理器中打开同一路径，确认当前 Windows 用户已经取得访问权限。也不建议为了运行脚本而让 AutoCAD 长期以管理员身份启动，因为管理员会话和普通用户会话可能使用不同的网络凭据或映射盘环境。</p>
+<h2 id="dwg-共享与交付">DWG 共享与交付</h2>
+<p>AutoCAD 附着光栅影像时，DWG 中保存的是影像引用路径，影像文件本身不会嵌入 DWG。因此，项目换电脑或发送给其他人后，对方仍然需要能够访问这些影像文件。</p>
+<p>团队内部通常有两种做法：</p>
+<ul>
+<li>所有人都能访问同一个 SMB 共享时，直接保留 UNC 路径；</li>
+<li>每个人都保存本地副本时，统一目录结构，并使用相对路径管理引用。</li>
+</ul>
+<p>对外发送项目时，可以使用 AutoCAD 的 <code>ETRANSMIT</code>：</p>
+<p><img src="/insgeo-autocad-georeferenced-images/etransmit-settings.webp" alt="ETRANSMIT 传递设置"></p>
+<p>在传递设置中勾选光栅图像，并在生成压缩包前检查文件清单。ETRANSMIT 会处理 DWG 实际引用的影像文件，但配准文件只是 INSGEO 插入时读取的输入，并不是 DWG 的影像依赖。如果需要保留完整的数据来源，TFW、ERS 等旁车文件应另外加入交付包。</p>
+<h2 id="脚本内部流程">脚本内部流程</h2>
+<p>INSGEO 的主流程可以概括为：</p>
+<pre><code class="language-text">批量选择影像
+  → 查找或手动选择旁车文件
+  → 在 ModelSpace 创建 RasterImage
+  → 解析 World File 或 ERS
+  → 设置 Origin / Rotation / ImageWidth / ImageHeight
+  → 更新对象
+  → 失败则删除，成功则计数
+</code></pre>
+<p>多文件窗口使用 Lee Mac 的 <code>LM:getfiles</code> v1.6。原函数支持从多个目录累计文件；INSGEO 保留了它的双列表交互，并把目录和文件检查接入单独编写的 UNC 兼容函数。</p>
+<p>脚本不会在完成配准前把影像永久留在图中。它会先确认旁车文件，再创建 RasterImage；后续发生坐标解析或 ActiveX 更新异常时，都会尝试删除对象。这比「先插到原点，失败后再由用户清理」更适合一次导入几十张影像的场景。</p>
+<h2 id="许可说明">许可说明</h2>
+<p>源码中划分了两段许可边界：</p>
+<ul>
+<li>INSGEO 主体和 UNC 兼容函数：© 2026 isweibin，BSD-3-Clause；</li>
+<li><code>LM:getfiles</code> 及其原有辅助代码：© 2012 Lee Mac，适用 Lee Mac Terms of Use。</li>
+</ul>
+<p><code>LM:getfiles</code> 的函数名、来源、版权和许可链接都保留在源码中，INSGEO 的对接修改也有注释标记。Lee Mac 当前公开条款对修改、组织内部使用、商业应用和再分发另有要求；准备复制或重新发布整份脚本前，应先阅读原条款并自行确认授权范围。</p>
+<h2 id="下载">下载</h2>
+<p>INSGEO.lsp 下载地址：<a href="https://pan.baidu.com/s/1VFiq79WuM-4JqzV2kYZUww?pwd=8zfx">百度网盘</a></p>
+<h2 id="相关资料">相关资料</h2>
+<ul>
+<li><a href="https://www.lee-mac.com/getfilesdialog.html">Lee Mac：Get Files Dialog</a></li>
+<li><a href="https://www.lee-mac.com/terms.html">Lee Mac：Terms of Use</a></li>
+<li><a href="https://pro.arcgis.com/en/pro-app/latest/help/data/imagery/world-files-for-raster-datasets.htm">ArcGIS Pro：World files for raster datasets</a></li>
+<li><a href="https://gdal.org/en/stable/drivers/raster/ers.html">GDAL：ERS — ERMapper .ERS</a></li>
+<li><a href="https://help.autodesk.com/cloudhelp/2023/ENU/AutoCAD-Core/files/GUID-E694F465-08C4-47B7-9A68-CC6B532F566E.htm">Autodesk：About Attaching Raster Images</a></li>
+<li><a href="https://help.autodesk.com/cloudhelp/2026/ENU/AutoCAD-Core/files/GUID-413A58AD-C86F-432F-A4AC-A2737237001A.htm">Autodesk：ETRANSMIT Command</a></li>
+</ul>
+<hr>
+<p><em>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议发布，可自由转载、修改，但需保留作者署名、不可用于商业用途、衍生作品需以相同协议发布。文章许可与脚本源码中各代码段的许可相互独立。</em></p>
+    </article>
+    <dialog class="image-lightbox" aria-label="Image preview">
+      <img alt="">
+    </dialog>
+  </main>
+  <footer>
+    <p>Questions or comments? <a href="mailto:hi@isweibin.com">Get in touch</a>.</p>
+  </footer>
+  <script src="/lightbox.js" defer></script>
+</body>
+</html>
