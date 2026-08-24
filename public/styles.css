@@ -4,12 +4,15 @@
    Dark scheme overrides these via prefers-color-scheme below. */
 :root {
   --width: 720px;
+  --media-width: 848px;
 
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
+
+  --gutter: var(--space-lg);
 
   --border-xs: 1px;
   --border-sm: 2px;
@@ -112,7 +115,7 @@ body {
   font-family: var(--font-text);
   font-size: var(--font-scale);
   margin: auto;
-  padding: var(--space-lg);
+  padding: var(--gutter);
   max-width: var(--width);
   text-align: left;
   background-color: var(--background-color);
@@ -288,6 +291,19 @@ img.inline {
   vertical-align: middle;
   border-radius: 0;
   filter: none;
+}
+
+/* Article images may extend beyond the reading column when space allows. */
+article img:not(.inline) {
+  max-width: min(
+    var(--media-width),
+    calc(100vw - var(--gutter) - var(--gutter))
+  );
+  margin-left: 0;
+  margin-right: 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Generic semantic figures; captions are written explicitly when needed. */
@@ -527,14 +543,14 @@ main {
   color: var(--link-color);
 }
 
-/* Keep navigation just outside the centered 720px content column. */
+/* Keep navigation just outside the centered --media-width content column. */
 .page-nav-home {
   top: var(--space-lg);
-  right: calc(50% + var(--width) / 2 + var(--space-lg));
+  right: calc(50% + var(--media-width) / 2 + var(--space-lg));
 }
 
 .page-nav-top {
-  left: calc(50% + var(--width) / 2 + var(--space-lg));
+  left: calc(50% + var(--media-width) / 2 + var(--space-lg));
   bottom: var(--space-lg);
 }
 
@@ -585,17 +601,17 @@ ul.blog-posts li a:visited {
   }
 }
 
-/* The 720px breakpoint mirrors --width; @media can't read var(), so keep them in sync. */
+/* This breakpoint mirrors --width; @media can't read var(), so keep them in sync. */
 @media only screen and (max-width: 720px) {
+  :root {
+    --gutter: var(--space-md);
+  }
+
   ul.blog-posts li {
     flex-direction: column;
   }
 
   ul.blog-posts li span {
     flex: unset;
-  }
-
-  body {
-    padding: var(--space-md);
   }
 }
