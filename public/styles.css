@@ -1,11 +1,11 @@
 /* === Variables === */
 /* Palette: Le Corbusier Polychromie Architecturale (1931 + 1959).
-   Light is built on blanc cassé + ocre; dark on terre d'ombre brûlée.
-   Dark scheme overrides these via prefers-color-scheme below. */
+   Colors are kept local to the blog and follow the current shared palette. */
 :root {
+  /* Layout. */
   --width: 720px;
-  --media-width: 848px;
 
+  /* Spacing. */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -14,121 +14,132 @@
 
   --gutter: var(--space-lg);
 
+  /* Borders and radii. */
   --border-xs: 1px;
   --border-sm: 2px;
   --border-md: 3px;
   --border-lg: 4px;
 
   --radius-sm: 2px;
-  --radius: 3px;
+  --radius-md: 3px;
 
-  --font-text: "Roboto", "Noto Emoji", sans-serif;
+  /* Typography. */
+  --font-sans: "Roboto", "Noto Emoji", sans-serif;
   --font-mono: "Roboto Mono", monospace;
-  --font-scale: 1em;
+  --font-size-sm: 0.875rem;
+  --font-weight-semibold: 600;
+  --line-height-normal: 1.55;
 
-  /* Light scheme — blanc cassé / ocre. */
-  --background-color: #f5efe1;      /* blanc cassé, paper                        */
-  --heading-color: #1c1b18;         /* noir d'ivoire, ink                        */
-  --text-color: #3a342c;            /* terre d'ombre naturelle, deep             */
-  --link-color: #3a5a78;            /* bleu outremer, sunken                     */
-  --visited-color: #7a5a4a;         /* terre sienne brûlée, light                */
-  --code-background-color: #ebe2cc; /* same family as page, one step deeper      */
-  --code-color: #1c1b18;
-  --border-color: #cbbfa6;          /* ombre naturelle moyenne, light            */
-  --muted-color: #6f6759;           /* gris clair 31, warm                       */
+  /* Light scheme. */
+  --background-color: #f5efe1;
+  --heading-color: #1c1b18;
+  --text-color: #3a342c;
+  --link-color: #3a5a78;
+  --visited-color: #7a5a4a;
+  --code-background-color: #ebe2cc;
+  --code-color: var(--heading-color);
+  --border-color: #cbbfa6;
+  --muted-color: #6f6759;
   --blockquote-color: var(--muted-color);
-  --blockquote-border: var(--border-color);
-  --mark-background-color: #d4b265; /* jaune vif 31, sunken — "used highlighter" */
-  --mark-color: #1c1b18;
-  --selection-background: var(--link-color);
+  --blockquote-border-color: var(--border-color);
+  --mark-background-color: #d4b265;
+  --mark-color: var(--heading-color);
+  --selection-background-color: var(--link-color);
   --selection-color: var(--background-color);
-  --image-glow: color-mix(in srgb, var(--heading-color) 18%, transparent);
+  --image-glow-color: color-mix(in srgb, var(--heading-color) 18%, transparent);
 
-  /* Alert accents.
-       For each type the *border* color and the *title* color are the same
-       (a single dynamique accent), and the bg is a near-paper wash with a
-       faint hint of the same hue. The information lives in the stripe and
-       title; the fill is intentionally subdued so the alert reads as
-       paper, lightly emphasized. */
-  --alert-note-bg: #ece4d2;     /* paper + cool wash              */
-  --alert-note-border: #3a5a78; /* bleu outremer                  */
-  --alert-tip-bg: #e8e2cc;      /* paper + green wash             */
-  --alert-tip-border: #5a7a4a;  /* vert anglais 59                */
-  --alert-imp-bg: #ebe1d2;      /* paper + violet wash            */
-  --alert-imp-border: #6e4c6a;  /* violet d'englise 59            */
-  --alert-warn-bg: #ecdfc2;     /* paper + amber wash             */
-  --alert-warn-border: #b87333; /* orange vif 31, ochre           */
-  --alert-cau-bg: #eadbcb;      /* paper + earth-red wash         */
-  --alert-cau-border: #8a4a3a;  /* terre sienne brûlée, ochre red */
+  /* Alert accents. */
+  --alert-note-background-color: #ece4d2;
+  --alert-note-border-color: #3a5a78;
+  --alert-tip-background-color: #e8e2cc;
+  --alert-tip-border-color: #5a7a4a;
+  --alert-important-background-color: #ebe1d2;
+  --alert-important-border-color: #6e4c6a;
+  --alert-warning-background-color: #ecdfc2;
+  --alert-warning-border-color: #b87333;
+  --alert-caution-background-color: #eadbcb;
+  --alert-caution-border-color: #8a4a3a;
 }
 
 :lang(zh-CN), :lang(zh-Hans), :lang(zh) {
-  --font-text: "Roboto", "Noto Sans SC", "Noto Emoji", sans-serif;
+  --font-sans: "Roboto", "Noto Sans SC", "Noto Emoji", sans-serif;
+  --font-mono: "Roboto Mono", "Noto Sans SC", monospace;
 }
 
 :lang(zh-TW), :lang(zh-HK), :lang(zh-Hant) {
-  --font-text: "Roboto", "Noto Sans TC", "Noto Emoji", sans-serif;
+  --font-sans: "Roboto", "Noto Sans TC", "Noto Emoji", sans-serif;
+  --font-mono: "Roboto Mono", "Noto Sans TC", monospace;
 }
 
 :lang(ja) {
-  --font-text: "Roboto", "Noto Sans JP", "Noto Emoji", sans-serif;
+  --font-sans: "Roboto", "Noto Sans JP", "Noto Emoji", sans-serif;
+  --font-mono: "Roboto Mono", "Noto Sans JP", monospace;
 }
 
 :lang(ko) {
-  --font-text: "Roboto", "Noto Sans KR", "Noto Emoji", sans-serif;
+  --font-sans: "Roboto", "Noto Sans KR", "Noto Emoji", sans-serif;
+  --font-mono: "Roboto Mono", "Noto Sans KR", monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Dark scheme — terre d'ombre brûlée, "paper at night". */
-    --background-color: #1f1c17; /* terre d'ombre brûlée 59, deepest */
+    /* Dark scheme. */
+    --background-color: #1f1c17;
     --heading-color: #ebe2cc;
     --text-color: #c8bca3;
     --link-color: #a8b8c8;
     --visited-color: #c8a890;
     --code-background-color: #2a2620;
-    --code-color: #ebe2cc;
     --border-color: #4a4238;
     --muted-color: #8a8170;
-    --blockquote-color: var(--muted-color);
-    --blockquote-border: var(--border-color);
     --mark-background-color: #5a4820;
-    --mark-color: var(--text-color);
-    --image-glow: color-mix(in srgb, var(--text-color) 18%, transparent);
 
-    /* Dark alert tints (same dynamique accents, lifted). */
-    --alert-note-bg: #23211d;
-    --alert-note-border: #7a9ab8;
-    --alert-tip-bg: #22221c;
-    --alert-tip-border: #8aaa7a;
-    --alert-imp-bg: #23201f;
-    --alert-imp-border: #a08aa0;
-    --alert-warn-bg: #26221b;
-    --alert-warn-border: #d4a36a;
-    --alert-cau-bg: #27211e;
-    --alert-cau-border: #b88575;
+    /* Dark alert tints. */
+    --alert-note-background-color: #23211d;
+    --alert-note-border-color: #7a9ab8;
+    --alert-tip-background-color: #22221c;
+    --alert-tip-border-color: #8aaa7a;
+    --alert-important-background-color: #23201f;
+    --alert-important-border-color: #a08aa0;
+    --alert-warning-background-color: #26221b;
+    --alert-warning-border-color: #d4a36a;
+    --alert-caution-background-color: #27211e;
+    --alert-caution-border-color: #b88575;
   }
 }
 
 /* === Base === */
-body {
-  font-family: var(--font-text);
-  font-size: var(--font-scale);
-  margin: auto;
-  padding: var(--gutter);
-  max-width: var(--width);
-  text-align: left;
-  background-color: var(--background-color);
-  overflow-wrap: break-word;
-  line-height: 1.5;
-  color: var(--text-color);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--background-color);
+  color-scheme: light dark;
+  font-synthesis: none;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
+body {
+  font-family: var(--font-sans);
+  margin: auto;
+  padding: var(--gutter);
+  max-width: calc(var(--width) + var(--gutter) * 2);
+  text-align: left;
+  background-color: var(--background-color);
+  overflow-wrap: break-word;
+  line-height: var(--line-height-normal);
+  color: var(--text-color);
+}
+
 /* === Typography === */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
   color: var(--heading-color);
 }
 
@@ -158,7 +169,7 @@ p {
 
 strong, b {
   color: var(--heading-color);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 em, i {
@@ -207,7 +218,7 @@ li ul, li ol {
 }
 
 blockquote {
-  border-left: var(--border-md) solid var(--blockquote-border);
+  border-left: var(--border-md) solid var(--blockquote-border-color);
   color: var(--blockquote-color);
   padding-left: var(--space-md);
   margin: 0 0 var(--space-md) 0;
@@ -220,7 +231,7 @@ hr {
 }
 
 ::selection {
-  background: var(--selection-background);
+  background: var(--selection-background-color);
   color: var(--selection-color);
 }
 
@@ -229,7 +240,7 @@ hr {
    The heading remains in the DOM for screen readers but is hidden visually. */
 section[data-footnotes] {
   margin-top: var(--space-xl);
-  font-size: 0.875em;
+  font-size: var(--font-size-sm);
   color: var(--muted-color);
   border-top: var(--border-xs) dashed var(--border-color);
   padding-top: var(--space-md);
@@ -244,6 +255,7 @@ section[data-footnotes] h2 {
   margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
@@ -267,7 +279,7 @@ a.data-footnote-backref {
 
 /* === Table of Contents === */
 .table-of-contents {
-  font-size: 0.875em;
+  font-size: var(--font-size-sm);
 }
 
 .table-of-contents ul, .table-of-contents li {
@@ -280,8 +292,8 @@ img {
   max-width: 100%;
   height: auto;
   margin: var(--space-lg) auto;
-  border-radius: var(--radius);
-  filter: drop-shadow(0 0 var(--space-sm) var(--image-glow));
+  border-radius: var(--radius-md);
+  filter: drop-shadow(0 0 var(--space-sm) var(--image-glow-color));
 }
 
 /* <img class="inline"> remains inline and is excluded from the lightbox. */
@@ -291,19 +303,6 @@ img.inline {
   vertical-align: middle;
   border-radius: 0;
   filter: none;
-}
-
-/* Article images may extend beyond the reading column when space allows. */
-article img:not(.inline) {
-  max-width: min(
-    var(--media-width),
-    calc(100vw - var(--gutter) - var(--gutter))
-  );
-  margin-left: 0;
-  margin-right: 0;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 /* Generic semantic figures; captions are written explicitly when needed. */
@@ -318,7 +317,7 @@ article figure > img {
 
 article figcaption {
   color: var(--muted-color);
-  font-size: 0.875em;
+  font-size: var(--font-size-sm);
   line-height: 1.6;
   text-align: center;
 }
@@ -335,7 +334,6 @@ article img[role="button"] {
 .image-lightbox {
   position: fixed;
   inset: 0;
-  box-sizing: border-box;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
@@ -355,7 +353,7 @@ article img[role="button"] {
 }
 
 .image-lightbox::backdrop {
-  background: rgb(0 0 0 / 80%);
+  background: rgb(28 27 24 / 80%);
 }
 
 .image-lightbox img {
@@ -366,12 +364,13 @@ article img[role="button"] {
   filter: none;
 }
 
+/* === Tables === */
 table {
   margin: var(--space-md) 0;
   border-collapse: collapse;
   border-top: var(--border-sm) solid var(--border-color);
   border-bottom: var(--border-sm) solid var(--border-color);
-  font-size: 0.875em;
+  font-size: var(--font-size-sm);
 }
 
 th, td {
@@ -380,12 +379,11 @@ th, td {
 }
 
 th {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   border-bottom: var(--border-xs) solid var(--border-color);
 }
 
-/* Wide tables scroll horizontally inside .table-wrapper; cell text never wraps.
-   This prioritizes row integrity over line breaks — intentional, not a bug. */
+/* Wide tables use intrinsic width and scroll inside .table-wrapper. */
 .table-wrapper {
   overflow-x: auto;
   margin: var(--space-md) 0;
@@ -400,24 +398,24 @@ th {
 /* === Code === */
 code, pre, time {
   font-family: var(--font-mono);
-  font-size: 0.875em;
+  font-size: var(--font-size-sm);
 }
 
 code {
-  padding: 2px 5px;
+  padding: 0.08em 0.3em;
   background-color: var(--code-background-color);
   color: var(--code-color);
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
 }
 
 pre {
   padding: var(--space-md);
   margin: var(--space-md) 0;
   overflow-x: auto;
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
   background-color: var(--code-background-color);
   color: var(--code-color);
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
 }
 
 pre code {
@@ -455,11 +453,8 @@ pre, math[display="block"] {
 }
 
 .markdown-alert-title {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-bottom: var(--space-xs);
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
 }
 
 .markdown-alert-title .octicon {
@@ -467,43 +462,43 @@ pre, math[display="block"] {
 }
 
 .markdown-alert-note {
-  background: var(--alert-note-bg);
-  border-left-color: var(--alert-note-border);
+  background: var(--alert-note-background-color);
+  border-left-color: var(--alert-note-border-color);
 }
 .markdown-alert-note .markdown-alert-title {
-  color: var(--alert-note-border);
+  color: var(--alert-note-border-color);
 }
 
 .markdown-alert-tip {
-  background: var(--alert-tip-bg);
-  border-left-color: var(--alert-tip-border);
+  background: var(--alert-tip-background-color);
+  border-left-color: var(--alert-tip-border-color);
 }
 .markdown-alert-tip .markdown-alert-title {
-  color: var(--alert-tip-border);
+  color: var(--alert-tip-border-color);
 }
 
 .markdown-alert-important {
-  background: var(--alert-imp-bg);
-  border-left-color: var(--alert-imp-border);
+  background: var(--alert-important-background-color);
+  border-left-color: var(--alert-important-border-color);
 }
 .markdown-alert-important .markdown-alert-title {
-  color: var(--alert-imp-border);
+  color: var(--alert-important-border-color);
 }
 
 .markdown-alert-warning {
-  background: var(--alert-warn-bg);
-  border-left-color: var(--alert-warn-border);
+  background: var(--alert-warning-background-color);
+  border-left-color: var(--alert-warning-border-color);
 }
 .markdown-alert-warning .markdown-alert-title {
-  color: var(--alert-warn-border);
+  color: var(--alert-warning-border-color);
 }
 
 .markdown-alert-caution {
-  background: var(--alert-cau-bg);
-  border-left-color: var(--alert-cau-border);
+  background: var(--alert-caution-background-color);
+  border-left-color: var(--alert-caution-border-color);
 }
 .markdown-alert-caution .markdown-alert-title {
-  color: var(--alert-cau-border);
+  color: var(--alert-caution-border-color);
 }
 
 /* === Interactive === */
@@ -511,13 +506,23 @@ a {
   color: var(--link-color);
   cursor: pointer;
   text-decoration: none;
+  text-decoration-thickness: var(--border-xs);
+  text-underline-offset: 0.18em;
 }
 
-a:hover {
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .page-nav a:hover {
+    color: var(--link-color);
+    text-decoration: none;
+  }
 }
 
-a:focus-visible, article img[role="button"]:focus-visible {
+a[href]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
   outline: var(--border-sm) solid var(--link-color);
   outline-offset: var(--border-sm);
   border-radius: var(--radius-sm);
@@ -533,24 +538,22 @@ main {
   position: fixed;
   z-index: 10;
   padding: var(--space-xs) var(--space-sm);
+  line-height: var(--line-height-normal);
   color: var(--muted-color);
   background-color: var(--background-color);
-  font-size: 0.875em;
+  font-size: var(--font-size-sm);
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.page-nav a:hover {
-  color: var(--link-color);
-}
-
-/* Keep navigation just outside the centered --media-width content column. */
+/* Keep navigation just outside the centered content column. */
 .page-nav-home {
   top: var(--space-lg);
-  right: calc(50% + var(--media-width) / 2 + var(--space-lg));
+  right: calc(50% + var(--width) / 2 + var(--space-lg));
 }
 
 .page-nav-top {
-  left: calc(50% + var(--media-width) / 2 + var(--space-lg));
+  left: calc(50% + var(--width) / 2 + var(--space-lg));
   bottom: var(--space-lg);
 }
 
@@ -558,7 +561,7 @@ footer {
   padding: var(--space-xl) 0;
   text-align: center;
   color: var(--muted-color);
-  font-size: 0.875em;
+  font-size: var(--font-size-sm);
   font-style: italic;
 }
 
@@ -587,7 +590,7 @@ ul.blog-posts li a:visited {
 }
 
 /* === Responsive === */
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1024px) {
   .page-nav-home {
     top: var(--space-md);
     left: var(--space-md);
@@ -601,8 +604,8 @@ ul.blog-posts li a:visited {
   }
 }
 
-/* This breakpoint mirrors --width; @media can't read var(), so keep them in sync. */
-@media only screen and (max-width: 720px) {
+/* --width plus two default gutters; @media cannot read custom properties. */
+@media only screen and (max-width: 768px) {
   :root {
     --gutter: var(--space-md);
   }
