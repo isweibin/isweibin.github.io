@@ -61,12 +61,16 @@
   --alert-caution-border-color: #8a4a3a;
 }
 
-:lang(zh-CN), :lang(zh-Hans), :lang(zh) {
+:lang(zh-CN),
+:lang(zh-Hans),
+:lang(zh) {
   --font-sans: "Roboto", "Noto Sans SC", "Noto Emoji", sans-serif;
   --font-mono: "Roboto Mono", "Noto Sans SC", monospace;
 }
 
-:lang(zh-TW), :lang(zh-HK), :lang(zh-Hant) {
+:lang(zh-TW),
+:lang(zh-HK),
+:lang(zh-Hant) {
   --font-sans: "Roboto", "Noto Sans TC", "Noto Emoji", sans-serif;
   --font-mono: "Roboto Mono", "Noto Sans TC", monospace;
 }
@@ -137,13 +141,19 @@ body {
 }
 
 /* === Typography === */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: var(--font-weight-semibold);
   line-height: 1.35;
   color: var(--heading-color);
 }
 
-h1, h2 {
+h1,
+h2 {
   margin-top: var(--space-xl);
   margin-bottom: var(--space-md);
 }
@@ -153,7 +163,9 @@ h3 {
   margin-bottom: var(--space-sm);
 }
 
-h4, h5, h6 {
+h4,
+h5,
+h6 {
   margin-top: var(--space-md);
   margin-bottom: var(--space-sm);
 }
@@ -167,12 +179,14 @@ p {
   margin-bottom: var(--space-md);
 }
 
-strong, b {
+strong,
+b {
   color: var(--heading-color);
   font-weight: var(--font-weight-semibold);
 }
 
-em, i {
+em,
+i {
   color: var(--heading-color);
 }
 
@@ -183,14 +197,16 @@ mark {
   border-radius: var(--radius-sm);
 }
 
-sup, sub {
+sup,
+sub {
   font-size: 0.75em;
   /* line-height: 0 keeps sup/sub from inflating the host line and
        spreading paragraphs apart wherever they appear. */
   line-height: 0;
 }
 
-del, s {
+del,
+s {
   color: var(--muted-color);
 }
 
@@ -202,7 +218,8 @@ time {
   margin-bottom: var(--space-xl);
 }
 
-ul, ol {
+ul,
+ol {
   padding-left: var(--space-lg);
   margin-top: 0;
   margin-bottom: var(--space-md);
@@ -212,7 +229,8 @@ li {
   margin-bottom: var(--space-xs);
 }
 
-li ul, li ol {
+li ul,
+li ol {
   margin-top: var(--space-xs);
   margin-bottom: 0;
 }
@@ -282,7 +300,8 @@ a.data-footnote-backref {
   font-size: var(--font-size-sm);
 }
 
-.table-of-contents ul, .table-of-contents li {
+.table-of-contents ul,
+.table-of-contents li {
   list-style-type: none;
 }
 
@@ -373,7 +392,8 @@ table {
   font-size: var(--font-size-sm);
 }
 
-th, td {
+th,
+td {
   padding: var(--space-sm) var(--space-md);
   text-align: left;
 }
@@ -396,7 +416,9 @@ th {
 }
 
 /* === Code === */
-code, pre, time {
+code,
+pre,
+time {
   font-family: var(--font-mono);
   font-size: var(--font-size-sm);
 }
@@ -432,7 +454,8 @@ math[display="block"] {
 }
 
 /* Slim, on-palette scrollbars on overflowing blocks. */
-pre, math[display="block"] {
+pre,
+math[display="block"] {
   scrollbar-width: thin;
   scrollbar-color: var(--border-color) transparent;
 }

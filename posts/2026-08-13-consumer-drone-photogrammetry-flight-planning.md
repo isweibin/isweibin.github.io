@@ -101,12 +101,12 @@ $$
 
 Mini 4 Pro 主摄最大照片尺寸为 8064 × 6048，24 mm 等效焦距。照片对角线正好是 10080 像素。代入以后：
 
-| 相机到地面的距离 | 理论 GSD |
-| --- | --- |
-| 50 m | 0.89 cm/pixel |
-| 80 m | 1.43 cm/pixel |
-| 100 m | 1.79 cm/pixel |
-| 120 m | 2.15 cm/pixel |
+| 相机到地面的距离 | 理论 GSD      |
+| ---------------- | ------------- |
+| 50 m             | 0.89 cm/pixel |
+| 80 m             | 1.43 cm/pixel |
+| 100 m            | 1.79 cm/pixel |
+| 120 m            | 2.15 cm/pixel |
 
 GSD 与距离近似成正比。飞得低，影像采样更细，但一张照片覆盖的范围也更小，需要更多航带和照片；飞得高则相反。这是航线规划最基础的一组取舍。
 
@@ -114,7 +114,7 @@ GSD 与距离近似成正比。飞得低，影像采样更细，但一张照片�
 
 GSD 很容易和「精度」混在一起，但它们不是同一个量。
 
-Bentley 2017 年的 *Guide for photo acquisition* 给过一个很方便的经验估算：
+Bentley 2017 年的 _Guide for photo acquisition_ 给过一个很方便的经验估算：
 
 $$
 P \approx 3R
@@ -294,13 +294,13 @@ Bentley 2018 年的指南给过两组很实用的经验：相邻照片对目标�
 
 ### 快速对照
 
-| 采集方式 | 适用目标 | 相机方向 | 参数起点 |
-| --- | --- | --- | --- |
-| 单条 / 少量航带 | 道路、河流、走廊 | 多为垂直 | 航向重叠优先保证 |
-| 面状 nadir | DOM、DSM、大面积俯视成果 | 垂直向下 | 可从 80% / 60% 起步 |
-| 交叉格网 | 需要增强网络几何的面状任务 | 垂直或混合 | 在基本格网上增加另一方向 |
-| 倾斜格网 | 城区、园区三维模型 | 常见 30°～45° from vertical | 根据遮挡和目标调整 |
-| 环绕 | 单体建筑、塔架、复杂设备 | 持续对准目标 | 相邻观察方向约 ≤15° |
+| 采集方式        | 适用目标                   | 相机方向                    | 参数起点                 |
+| --------------- | -------------------------- | --------------------------- | ------------------------ |
+| 单条 / 少量航带 | 道路、河流、走廊           | 多为垂直                    | 航向重叠优先保证         |
+| 面状 nadir      | DOM、DSM、大面积俯视成果   | 垂直向下                    | 可从 80% / 60% 起步      |
+| 交叉格网        | 需要增强网络几何的面状任务 | 垂直或混合                  | 在基本格网上增加另一方向 |
+| 倾斜格网        | 城区、园区三维模型         | 常见 30°～45° from vertical | 根据遮挡和目标调整       |
+| 环绕            | 单体建筑、塔架、复杂设备   | 持续对准目标                | 相邻观察方向约 ≤15°      |
 
 ## 消费级机型真正限制了什么
 
@@ -308,16 +308,16 @@ Bentley 2018 年的指南给过两组很实用的经验：相邻照片对目标�
 
 下面只列几款机型主摄与航拍建模直接相关、且能从 DJI 当前规格页明确查到的参数。100 m GSD 按前面的等效焦距近似公式和最大静态照片尺寸计算，只用于横向比较。
 
-| 机型 | 建模主摄 | 最大照片尺寸 | 等效焦距 | 100 m 理论 GSD | 起飞重量 | 官方最大飞行时间 |
-| --- | --- | --- | --- | --- | --- | --- |
-| Mini 4 Pro | 1/1.3" 48 MP | 8064 × 6048 | 24 mm | 1.79 cm | <249 g | 34 min |
-| Mini 5 Pro | 1" 50 MP | 8192 × 6144 | 24 mm | 1.76 cm | 约 249.9 g | 36 min（标准电池） |
-| Air 3（广角） | 1/1.3" 48 MP | 8064 × 6048 | 24 mm | 1.79 cm | 720 g | 46 min |
-| Air 3S（广角） | 1" 50 MP | 8192 × 6144 | 24 mm | 1.76 cm | 724 g | 45 min |
-| Mavic 3 | 4/3 20 MP 哈苏 | 5280 × 3956 | 24 mm | 2.73 cm | 895 g | 46 min |
-| Mavic 3 Classic | 4/3 20 MP 哈苏 | 5280 × 3956 | 24 mm | 2.73 cm | 895 g | 46 min |
-| Mavic 3 Pro | 4/3 20 MP 哈苏 | 5280 × 3956 | 24 mm | 2.73 cm | 958 g | 43 min |
-| Mavic 4 Pro | 4/3 100 MP 哈苏 | 12288 × 8192 | 28 mm | 1.05 cm | 约 1063 g | 51 min |
+| 机型            | 建模主摄        | 最大照片尺寸 | 等效焦距 | 100 m 理论 GSD | 起飞重量   | 官方最大飞行时间   |
+| --------------- | --------------- | ------------ | -------- | -------------- | ---------- | ------------------ |
+| Mini 4 Pro      | 1/1.3" 48 MP    | 8064 × 6048  | 24 mm    | 1.79 cm        | <249 g     | 34 min             |
+| Mini 5 Pro      | 1" 50 MP        | 8192 × 6144  | 24 mm    | 1.76 cm        | 约 249.9 g | 36 min（标准电池） |
+| Air 3（广角）   | 1/1.3" 48 MP    | 8064 × 6048  | 24 mm    | 1.79 cm        | 720 g      | 46 min             |
+| Air 3S（广角）  | 1" 50 MP        | 8192 × 6144  | 24 mm    | 1.76 cm        | 724 g      | 45 min             |
+| Mavic 3         | 4/3 20 MP 哈苏  | 5280 × 3956  | 24 mm    | 2.73 cm        | 895 g      | 46 min             |
+| Mavic 3 Classic | 4/3 20 MP 哈苏  | 5280 × 3956  | 24 mm    | 2.73 cm        | 895 g      | 46 min             |
+| Mavic 3 Pro     | 4/3 20 MP 哈苏  | 5280 × 3956  | 24 mm    | 2.73 cm        | 958 g      | 43 min             |
+| Mavic 4 Pro     | 4/3 100 MP 哈苏 | 12288 × 8192 | 28 mm    | 1.05 cm        | 约 1063 g  | 51 min             |
 
 表里的「官方最大飞行时间」是在厂商测试条件下得到的上限，不是摄影测量任务的可用航时。实际任务还要给返航、电量预警、风和转场留余量。
 
@@ -581,8 +581,8 @@ GSD 告诉你拍得有多细，重叠和观察角度决定摄影测量网络是�
 
 本文的摄影测量原理与采集方法主要参考以下资料，消费级机型参数和法规信息则按文章更新时的官方资料核对：
 
-- Bentley Systems, *ContextCapture | Guide for photo acquisition*, 2017 年 3 月.
-- Bentley Reality Modeling Academy, *Reality Modeling Drone Capture Guide*, 2018 年.
+- Bentley Systems, _ContextCapture | Guide for photo acquisition_, 2017 年 3 月.
+- Bentley Reality Modeling Academy, _Reality Modeling Drone Capture Guide_, 2018 年.
 - [DJI Mini 4 Pro 官方规格](https://www.dji.com/mini-4-pro/specs)
 - [DJI Mini 5 Pro 官方规格](https://www.dji.com/mini-5-pro/specs)
 - [DJI Air 3 官方规格](https://www.dji.com/air-3/specs)
@@ -595,9 +595,9 @@ GSD 告诉你拍得有多细，重叠和观察角度决定摄影测量网络是�
 - [中国民用航空局《无人驾驶航空器飞行管理暂行条例》](https://www.caac.gov.cn/XXGK/XXGK/FLFG/202401/t20240115_222642.html)
 - [中国民用航空局《民用无人驾驶航空器实名登记和激活要求》政策解读](https://www.caac.gov.cn/XXGK/XXGK/ZCFBJD/202604/t20260421_230620.html)
 - [USGS SRTM 数据说明](https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm-1)
-- Kerbl et al., [*3D Gaussian Splatting for Real-Time Radiance Field Rendering*](https://arxiv.org/abs/2308.04079), 2023.
-- Fu et al., [*COLMAP-Free 3D Gaussian Splatting*](https://arxiv.org/abs/2312.07504), 2023.
+- Kerbl et al., [_3D Gaussian Splatting for Real-Time Radiance Field Rendering_](https://arxiv.org/abs/2308.04079), 2023.
+- Fu et al., [_COLMAP-Free 3D Gaussian Splatting_](https://arxiv.org/abs/2312.07504), 2023.
 
 ---
 
-*本文采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 协议发布，可自由转载、修改，但需保留作者署名、不可用于商业用途、衍生作品需以相同协议发布。*
+_本文采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 协议发布，可自由转载、修改，但需保留作者署名、不可用于商业用途、衍生作品需以相同协议发布。_

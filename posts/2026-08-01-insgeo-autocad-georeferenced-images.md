@@ -198,4 +198,4 @@ INSGEO.lsp 下载地址：[百度网盘](https://pan.baidu.com/s/1VFiq79WuM-4Jqz
 
 ---
 
-*本文采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 协议发布，可自由转载、修改，但需保留作者署名、不可用于商业用途、衍生作品需以相同协议发布。文章许可与脚本源码中各代码段的许可相互独立。*
+_本文采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 协议发布，可自由转载、修改，但需保留作者署名、不可用于商业用途、衍生作品需以相同协议发布。文章许可与脚本源码中各代码段的许可相互独立。_
