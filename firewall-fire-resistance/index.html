@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>钢筋混凝土防火堤真能达到 5.5 h 耐火极限吗——对 GB 50074 一处规范援引的质疑 | isweibin&#39;s Blog</title>
+  <meta name="description" content="探讨储罐区钢筋混凝土防火堤的耐火性能。通过梳理防火规范历史沿革，指出规范援引的 ISO 834 标准升温曲线不适用于烃类火灾，建议实际工程中仍应按要求对防火堤采取可靠的防火涂料保护措施。">
+  <meta property="og:description" content="探讨储罐区钢筋混凝土防火堤的耐火性能。通过梳理防火规范历史沿革，指出规范援引的 ISO 834 标准升温曲线不适用于烃类火灾，建议实际工程中仍应按要求对防火堤采取可靠的防火涂料保护措施。">
+  <meta property="og:title" content="钢筋混凝土防火堤真能达到 5.5 h 耐火极限吗——对 GB 50074 一处规范援引的质疑 | isweibin&#39;s Blog">
+  <meta property="og:url" content="https://isweibin.com/firewall-fire-resistance/">
+  <meta property="og:type" content="article">
+  <link rel="canonical" href="https://isweibin.com/firewall-fire-resistance/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,600;1,400;1,600&amp;family=Roboto+Mono:ital,wght@0,400;0,600;1,400;1,600&amp;family=Noto+Emoji:wght@400;600&amp;family=Noto+Sans+SC:wght@400;600&amp;display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body id="top">
+  <nav class="page-nav" aria-label="Page navigation">
+    <a class="page-nav-home" href="/">← Home</a>
+    <a class="page-nav-top" href="#top">↑ Top</a>
+  </nav>
+  <main>
+    <article>
+      <h1>钢筋混凝土防火堤真能达到 5.5 h 耐火极限吗——对 GB 50074 一处规范援引的质疑</h1>
+      <p class="post-meta"><i><time datetime="2026-07-31T09:00:00.000Z">2026-07-31 17:00</time></i></p>
+      <p><strong>摘要：</strong> 本文探讨了储罐区钢筋混凝土防火堤的耐火性能问题。通过梳理现行 GB 50351、GB 50183、GB 50737、GB 50074、GB 50160 等规范对防火堤耐火极限的不同要求（3 ~ 5.5 h），指出《石油库设计规范》依据《建筑设计防火规范》判定 240 mm 厚钢筋混凝土防火堤耐火极限可达 5.5 h 的结论存在问题。通过考证《建筑设计防火规范》的历史沿革，论证了其附录中建筑构件的耐火极限数据系基于 ISO 834 的标准升温曲线测得，而储罐区火灾属烃类火灾，应采用烃类火灾升温曲线进行试验。本文认为，在缺乏烃类火灾升温条件下钢筋混凝土防火堤耐火极限试验数据的情况下，在实际工程中，钢筋混凝土防火堤仍应按《石油天然气工程设计防火规范》要求采取防火保护措施，采取防火涂料时其性能应符合《混凝土结构防火涂料》的相关规定。</p>
+<p><strong>关键词：</strong> 储罐区防火堤；耐火极限；烃类火灾；标准升温曲线；烃类火灾升温曲线；混凝土结构防火涂料</p>
+<nav class="table-of-contents"><ul>
+<li><a href="#%E5%90%84%E8%A7%84%E8%8C%83%E5%AF%B9%E9%98%B2%E7%81%AB%E5%A0%A4%E8%80%90%E7%81%AB%E6%80%A7%E8%83%BD%E7%9A%84%E8%A6%81%E6%B1%82">各规范对防火堤耐火性能的要求</a></li>
+<li><a href="#%E8%80%90%E7%81%AB%E6%9E%81%E9%99%90%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E8%AF%95%E9%AA%8C%E6%9D%A1%E4%BB%B6">耐火极限的定义与试验条件</a></li>
+<li><a href="#%E9%92%A2%E7%AD%8B%E6%B7%B7%E5%87%9D%E5%9C%9F%E9%98%B2%E7%81%AB%E5%A0%A4%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BB%8D%E9%9C%80%E8%A6%81%E4%BF%9D%E6%8A%A4%E6%8E%AA%E6%96%BD">钢筋混凝土防火堤为什么仍需要保护措施</a></li>
+<li><a href="#%E7%BB%93%E8%AE%BA%E4%B8%8E%E5%BB%BA%E8%AE%AE">结论与建议</a></li>
+</ul></nav>
+<h2 id="各规范对防火堤耐火性能的要求">各规范对防火堤耐火性能的要求</h2>
+<p>现行规范对储罐区防火堤防火性能的要求摘抄如下：</p>
+<ul>
+<li>根据《储罐区防火堤设计规范》GB 50351—2014 第 3.1.3 条的规定，防火堤的防火性能应符合现行国家标准《石油天然气工程设计防火规范》GB 50183、《石油储备库设计规范》GB 50737、《石油库设计规范》GB 50074、《石油化工企业设计防火规范》GB 50160 的相关规定<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup>。</li>
+<li>根据《石油天然气工程设计防火规范》GB 50183—2004 第 6.5.9 条第 2 款的规定，防火堤应使用不燃烧材料建造，首选土堤，当土源有困难时，可用砖石、钢筋混凝土等不燃烧材料砌筑，但内侧应培土或涂抹有效的防火涂料。同时，本条的条文说明解释到，油罐发生火灾时，火场温度能达到 1000 ℃ 以上。防火堤和隔堤只有采用非燃烧材料建造并满足耐火极限 4 h 的要求，才能抵抗这种高温的烧烤，给消防扑救赢得时间。能满足上述要求的材料中，土筑堤是最好的，应为首选。但往往有许多地方土源困难，土堤占地多且维护工作量大，故可采用砖、石、钢筋混凝土等材料筑造防火堤，为保证耐火极限 4 h，这些材料筑成堤的内表面应培土或涂抹有效的耐火涂料<sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref aria-describedby="footnote-label">2</a></sup>。</li>
+<li>根据《石油储备库设计规范》GB 50737—2011 第 5.3.7 条的规定，防火堤耐火极限不应低于 3 h，若耐火极限低于 3 h 时应采取在堤内侧培土或喷涂隔热防火涂料等保护措施；在耐火极限内，防火堤应能承受在计算高度范围内所容纳液体的静压力且不应泄漏<sup><a href="#user-content-fn-3" id="user-content-fnref-3" data-footnote-ref aria-describedby="footnote-label">3</a></sup>。</li>
+<li>根据《石油库设计规范》GB 50074—2014 第 6.5.5 条的规定，防火堤应能承受在计算高度范围内所容纳液体的静压力且不应泄漏；防火堤的耐火极限不应低于 5.5 h。同时，本条的条文说明解释到，本条规定的防火堤耐火极限是考虑了火灾持续时间和设计方便等因素确定的，根据现行国家标准《建筑设计防火规范》GB 50016—2006 的有关规定，结构厚度为 240 mm 的普通黏土砖、钢筋混凝土等实体墙的耐火极限即可达到 5.5 h。只要防火堤自身结构能满足此要求，不需要再采取在堤内侧培土或喷涂隔热防火涂料等保护措施<sup><a href="#user-content-fn-4" id="user-content-fnref-4" data-footnote-ref aria-describedby="footnote-label">4</a></sup>。</li>
+<li>根据《石油化工企业设计防火标准》GB 50160—2008（2018 年版）第 6.1.1 条的规定，可燃气体、助燃气体、液化烃和可燃液体的储罐基础、防火堤、隔堤及管架（墩）等，均应采用不燃烧材料。防火堤的耐火极限不得小于 3 h<sup><a href="#user-content-fn-5" id="user-content-fnref-5" data-footnote-ref aria-describedby="footnote-label">5</a></sup>。</li>
+</ul>
+<p>各相应规范针对不同的储存介质特性对防火堤的防火性能作了不同的相应规定。《石油化工企业设计防火标准》GB 50160—2008（2018 年版）和《石油储备库设计规范》GB 50737—2011 均要求防火堤耐火极限不低于 3 h，后者还明确规定不满足时应采取培土或喷涂防火涂料等保护措施；《石油天然气工程设计防火规范》GB 50183—2004 虽未在正文中明确耐火极限数值，但其条文说明提出了 4 h 的要求，并规定砖石、钢筋混凝土等材料砌筑的防火堤内侧应培土或涂抹有效的防火涂料。值得注意的是，《石油库设计规范》GB 50074—2014 提出了各规范中最高的耐火极限要求——5.5 h，并在条文说明中援引《建筑设计防火规范》GB 50016—2006 作为依据，认为 240 mm 厚的钢筋混凝土实体墙即可达到该耐火极限，进而得出结论：只要防火堤自身结构满足要求，则无需再采取防火保护措施。</p>
+<p>对此观点，笔者认为有待商榷，由此引出本文核心议题：钢筋混凝土防火堤耐火极限能否达到 5.5 h？能否不采取保护措施？</p>
+<h2 id="耐火极限的定义与试验条件">耐火极限的定义与试验条件</h2>
+<p>探讨防火堤耐火性能，首先需要厘清耐火极限的定义及其试验方法。按照现行《建筑设计防火规范》GB 50016—2014（2018 年版）第 2.1.10 条的定义，耐火极限是在标准耐火试验条件下，建筑构件、配件或结构从受到火的作用时起，至失去承载能力、完整性或隔热性时止所用时间，用小时表示<sup><a href="#user-content-fn-6" id="user-content-fnref-6" data-footnote-ref aria-describedby="footnote-label">6</a></sup>，该定义与后续发布的《建筑防火通用规范》GB 55037—2022 保持一致。条文说明对此进一步解释：「标准耐火试验条件」指符合国家标准规定的耐火试验条件。对于升温条件，不同使用性质和功能的建筑，火灾类型可能不同，因而在建筑构配件的标准耐火性能测定过程中，受火条件也有所不同，需要根据实际的火灾类型确定不同标准的升温条件。对于不同的建筑结构或构、配件，耐火极限的判定标准和所代表的含义也不完全一致，详见现行国家标准《建筑构件耐火试验方法》系列 GB/T 9978.1 ~ GB/T 9978.9。</p>
+<p>然而，《建筑设计防火规范》GB 50016—2014（2018 年版）条文说明中「附录 各类建筑构件的燃烧性能和耐火极限」虽按类型给出了建筑构件的耐火极限数据参考值，但没有明确表中耐火极限数据使用何种试验条件测得。</p>
+<p>耐火极限的定义随着《建筑设计防火规范》的历史演变在各版本中不断完善。新中国成立初期，我国在缺乏工业化技术积累的背景下，防火技术要求从翻译消化苏联规范启程<sup><a href="#user-content-fn-7" id="user-content-fnref-7" data-footnote-ref aria-describedby="footnote-label">7</a></sup>。在杨春禄翻译的《工业企业及住宅区建筑设计防火标准》中，耐火极限被定义为受到火力作用的建筑结构在失掉支持能力、稳定性或发生裂隙、或与火对立的表面温度升高到 150 ℃ 以前，其对于火的抵抗，并以小时表示，同时附带了「附件Ⅰ 建筑结构之耐火极限与燃烧性能之分类」，其中已经出现了结构厚度为 250 mm 的钢筋混凝土实心墙耐火极限可达 5.5 h 的描述。该版本标明了耐火极限试验的升温条件，笔者抄录并和《建筑构件耐火试验方法 第 1 部分：通用要求》GB/T 9978.1—2008 第 6.1.1 条温度方程对比如下：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">时间 / min</th>
+<th align="left">10</th>
+<th align="left">30</th>
+<th align="left">60</th>
+<th align="left">120</th>
+<th align="left">≥ 480</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">《防火标准》</td>
+<td align="left">温度 / ℃</td>
+<td align="left">700</td>
+<td align="left">800</td>
+<td align="left">900</td>
+<td align="left">1000</td>
+<td align="left">1250</td>
+</tr>
+<tr>
+<td align="left">《试验方法》</td>
+<td align="left">温度 / ℃</td>
+<td align="left">678</td>
+<td align="left">841</td>
+<td align="left">945</td>
+<td align="left">1049</td>
+<td align="left">1256</td>
+</tr>
+</tbody>
+</table></div>
+<p>通过以上对比发现，《工业企业及住宅区建筑设计防火标准》和《建筑构件耐火试验方法 第 1 部分：通用要求》GB/T 9978.1—2008 的耐火极限试验升温条件基本一致。</p>
+<p>1954 年，原建筑工程部编制的《建筑设计规范》在当时的华北区试行，该规范是新中国成立后的第一部规定建筑防火内容的规范，初步建立了防火技术的框架，奠定了防火规范的基石。该版本耐火极限的定义和各类建筑构件的耐火极限数据的参照表格与前述译本基本相同，但不再标明耐火极限试验的升温条件。</p>
+<p>直到 2006 年，全面修订的《建筑设计防火规范》GB 50016—2006 基本是 2014 版的原型，增加了「城市隧道交通」章节，一并引入了用于隧道内承重结构体的 RABT 标准升温曲线和 HC 标准升温曲线。该版本首次提出了不同的标准有不同的升温曲线，第 12.1.3 条条文说明指出，当时各国以建筑构件为对象的标准防火试验，均以 ISO 834 的标准时间—温度曲线（纤维质类）为基础。该标准时间—温度曲线以通常的建筑物材料的燃烧率为基础，真实模拟了地面开放空间的火灾发展状况，但这种针对纤维质类火灾的测试曲线对某些建筑工程设计已不适用，如石油化工火灾<sup><a href="#user-content-fn-8" id="user-content-fnref-8" data-footnote-ref aria-describedby="footnote-label">8</a></sup>。这表明在此之前的各版《建筑设计防火规范》中耐火极限数据的测定均为 ISO 834 的标准升温曲线。</p>
+<p>《建筑构件耐火试验方法 第 3 部分：试验方法和试验数据应用注释》GB/T 9978.3—2008 第 4.2 节也可作为佐证，该节提到 GB/T 9978.1—2008 第 6.1.1 条描述的试验炉内标准升温曲线，与过去几十年里一直使用的耐火试验时间—温度曲线基本一致<sup><a href="#user-content-fn-9" id="user-content-fnref-9" data-footnote-ref aria-describedby="footnote-label">9</a></sup>。这一发现也印证了《工业企业及住宅区建筑设计防火标准》所载升温条件与《建筑构件耐火试验方法 第 1 部分：通用要求》GB/T 9978.1—2008 耐火极限试验升温条件的内在一致性。同时从《建筑设计防火规范》GB 50016—2006 起，「附录 各类建筑构件的燃烧性能和耐火极限」被放到条文说明中附带，不在正文提供。</p>
+<p>基于上述历史考证可得出以下结论：各版《建筑设计防火规范》建筑构件的耐火极限数据均为 ISO 834 标准升温曲线下的试验结果。</p>
+<p>《建筑设计防火规范》GB 50016—2006 第 2.0.1 条条文说明建议，对于石油化工建筑、通行大型车辆的隧道等以烃类火灾为主的场所，其结构的耐火试验时间—温度曲线则应考虑采用其他相适应的时间—温度标准曲线，如碳氢时间—温度标准曲线等<sup><a href="#user-content-fn-8" id="user-content-fnref-8-2" data-footnote-ref aria-describedby="footnote-label">8</a></sup>。ISO 834 标准升温曲线与烃类火灾（HC）升温曲线存在显著差异：ISO 834 曲线对应一般火灾场景，最高温度较低、升温速率较缓；而 HC 曲线在最初几分钟内温度梯度极为剧烈，最高温度约 1100 ℃，可能对周围混凝土结构造成温度冲击，导致混凝土爆裂剥落。此外，不同类型建筑构件的耐火极限判定标准存在差异。防火堤在事故工况下主要承受液体静压力及热冲击，其受力模式与建筑承重墙截然不同。因此，直接套用《建筑构件耐火试验方法 第 4 部分：承重垂直分隔构件的特殊要求》GB/T 9978.4—2008 作为防火堤耐火极限的判定依据，笔者认为并不妥当。</p>
+<p>综上，《石油库设计规范》GB 50074—2014 依据《建筑设计防火规范》GB 50016—2006「附录 各类建筑构件的燃烧性能和耐火极限」推断 240 mm 厚钢筋混凝土防火堤耐火极限可达 5.5 h 的结论，缺乏对升温条件差异的考量。</p>
+<h2 id="钢筋混凝土防火堤为什么仍需要保护措施">钢筋混凝土防火堤为什么仍需要保护措施</h2>
+<p>按照《储罐区防火堤设计规范》GB 50351—2005 第 4.1.5 条，防火堤（土堤除外）应采取在堤内侧培土或喷涂隔热防火保护措施<sup><a href="#user-content-fn-10" id="user-content-fnref-10" data-footnote-ref aria-describedby="footnote-label">10</a></sup>。而《储罐区防火堤设计规范》GB 50351—2014 取消了钢筋混凝土、砖、砌块防火堤应采取保护措施的相关要求。考虑到该规范和《石油库设计规范》GB 50074—2014 同在 2014 年修订，《储罐区防火堤设计规范》GB 50351—2014 取消相关要求应当是尊重了《石油库设计规范》GB 50074—2014 关于「只要防火堤自身结构能满足耐火极限的要求就不需要再采取保护措施」的观点。然而前文已经论证，这一观点的援引基础并不成立，由此带来的取消保护措施的修订也就值得重新审视。</p>
+<p>回到混凝土材料本身。时旭东、过镇海对高温下的钢筋混凝土强度做了系统的试验研究<sup><a href="#user-content-fn-11" id="user-content-fnref-11" data-footnote-ref aria-describedby="footnote-label">11</a></sup>，得出高温情况下混凝土抗压强度的变化规律：随着温度升高至 100 ℃ 期间抗压强度缓慢下降，然后回升至比常温时还大；当温度高于 400 ℃ 时，抗压强度又开始持续下降；当 T = 900 ℃ 时，抗压强度下降为常温下抗压强度的 10%。《建筑设计防火规范》GB 50016—2014（2018 年版）第 12.1.3 条条文说明亦提到，试验研究表明，混凝土结构受热后会由于内部产生高压水蒸气而导致表层受压，使混凝土发生爆裂；结构荷载压力和混凝土含水率越高，发生爆裂的可能性也越大；当混凝土的质量含水率大于 3% 时，受高温作用后肯定会发生爆裂现象；当充分干燥的混凝土长时间暴露在高温下时，混凝土内各种材料的结合水将会蒸发，从而使混凝土失去结合力而发生爆裂，最终会一层一层地穿透整个混凝土结构。这种爆裂破坏会使增强钢筋因暴露于高温中失去强度而致结构破坏，甚至导致结构垮塌<sup><a href="#user-content-fn-6" id="user-content-fnref-6-2" data-footnote-ref aria-describedby="footnote-label">6</a></sup>。</p>
+<p>储罐区一旦发生泄漏并引发火灾，火场温度可迅速升至 1000 ℃ 以上，远超混凝土抗压强度急剧下降并发生爆裂剥落的临界温度。因此，采取恰当措施提高钢筋混凝土防火堤的耐高温性能，对于提高罐区事故状态下的安全性具有十分重要的现实意义。</p>
+<p>回到规范层面，《石油天然气工程设计防火规范》GB 50183—2004 第 6.9.8 条要求，罐组砖、石、钢筋混凝土防火堤无培土的内侧和顶部，均应涂抹保护层，其耐火极限不应小于 2 h<sup><a href="#user-content-fn-2" id="user-content-fnref-2-2" data-footnote-ref aria-describedby="footnote-label">2</a></sup>。考虑到保护措施对防火堤有效容积的影响，实际工程中钢筋混凝土防火堤一般采用喷涂防火涂料作为保护措施。防火涂料的理化性能和耐火性能应符合即将实施的《混凝土结构防火涂料》GB 28375—2025<sup><a href="#user-content-fn-12" id="user-content-fnref-12" data-footnote-ref aria-describedby="footnote-label">12</a></sup> 的相关规定。</p>
+<p>值得注意的是，《混凝土结构防火涂料》GB 28375—2025 中防火涂料的耐火试验方法执行的是《构件用防火保护材料 快速升温耐火试验方法》XF/T 714—2007<sup><a href="#user-content-fn-13" id="user-content-fnref-13" data-footnote-ref aria-describedby="footnote-label">13</a></sup>，该规范采用 4 种耐火试验升温曲线针对不同场景下的火灾试验防火保护材料的耐火性能。对于防火堤防火涂料，应选择烃类火灾升温和石油化工火灾升温的一种或两种升温条件进行耐火性能的检验和判定。这一点与本文前述对升温条件差异的讨论是一致的——既然规范在防火涂料层面已经认识到烃类火灾升温曲线的必要性，那么对作为承载基底的钢筋混凝土防火堤本身，理应有同样的认识。</p>
+<h2 id="结论与建议">结论与建议</h2>
+<p>综上所述，《石油库设计规范》GB 50074—2014 依据《建筑设计防火规范》GB 50016—2006 判断 240 mm 厚钢筋混凝土防火堤耐火极限可达 5.5 h 的结论，没有考虑升温条件的差异—— 《建筑设计防火规范》GB 50016—2006 附录中的耐火极限数据基于 ISO 834 标准升温曲线测得，而储罐区火灾属烃类火灾，二者升温曲线差异显著，不宜直接援引。</p>
+<p>基于此，笔者对实际工程提出以下建议：</p>
+<ol>
+<li>对于应用广泛的钢筋混凝土防火堤，不应依据《石油库设计规范》GB 50074—2014 的条文说明免除保护措施，而应依据《石油天然气工程设计防火规范》GB 50183—2004 的要求在内侧培土或涂抹保护层；</li>
+<li>采用防火涂料作为保护措施时，其理化性能和耐火性能应符合《混凝土结构防火涂料》GB 28375—2025 的相关规定；</li>
+<li>《混凝土结构防火涂料》GB 28375—2025 中防火堤防火涂料耐火性能试验对升温曲线的选择思路（烃类火灾升温或石油化工火灾升温），可推广应用到验证钢筋混凝土防火堤本体耐火性能的试验中去。</li>
+</ol>
+<p>鉴于目前尚缺乏烃类火灾升温条件和石油化工类火灾升温条件下钢筋混凝土防火堤耐火极限的系统试验数据，期待业界同仁在相关方面开展专项试验研究，为规范修订提供科学依据。</p>
+<hr>
+<p><em>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议发布，可自由转载、修改，但需保留作者署名、不可用于商业用途、衍生作品需以相同协议发布。</em></p>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>储罐区防火堤设计规范：GB 50351—2014[S]. 2014. <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-2">
+<p>石油天然气工程设计防火规范：GB 50183—2004[S]. 2004. <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-2-2" data-footnote-backref="" aria-label="Back to reference 2-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-3">
+<p>石油储备库设计规范：GB 50737—2011[S]. 2011. <a href="#user-content-fnref-3" data-footnote-backref="" aria-label="Back to reference 3" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-4">
+<p>石油库设计规范：GB 50074—2014[S]. 2014. <a href="#user-content-fnref-4" data-footnote-backref="" aria-label="Back to reference 4" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-5">
+<p>石油化工企业设计防火标准：GB 50160—2008（2018 年版）[S]. 2008. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 5" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-6">
+<p>建筑设计防火规范（2018 年版）：GB 50016—2014（2018）[S]. 2014. <a href="#user-content-fnref-6" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-6-2" data-footnote-backref="" aria-label="Back to reference 6-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-7">
+<p>王宗存. 我国建筑防火规范体系回顾与展望[J]. 消防科学与技术, 2025, 44(9): 1239—1242. DOI: 10.20168/j.1009-0029.2025.09.1239.04. <a href="#user-content-fnref-7" data-footnote-backref="" aria-label="Back to reference 7" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-8">
+<p>建筑设计防火规范：GB 50016—2006[S]. 2006. <a href="#user-content-fnref-8" data-footnote-backref="" aria-label="Back to reference 8" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-8-2" data-footnote-backref="" aria-label="Back to reference 8-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-9">
+<p>建筑构件耐火试验方法 第 3 部分：试验方法和试验数据应用注释：GB/T 9978.3—2008[S]. 2008. <a href="#user-content-fnref-9" data-footnote-backref="" aria-label="Back to reference 9" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-10">
+<p>储罐区防火堤设计规范：GB 50351—2005[S]. 2005. <a href="#user-content-fnref-10" data-footnote-backref="" aria-label="Back to reference 10" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-11">
+<p>时旭东, 过镇海. 高温下钢筋混凝土受力性能的试验研究[J]. 土木工程学报, 2000(6): 6—16. DOI: 10.15951/j.tmgcxb.2000.06.002. <a href="#user-content-fnref-11" data-footnote-backref="" aria-label="Back to reference 11" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-12">
+<p>混凝土结构防火涂料：GB 28375—2025[S]. 2025. <a href="#user-content-fnref-12" data-footnote-backref="" aria-label="Back to reference 12" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-13">
+<p>构件用防火保护材料 快速升温耐火试验方法：XF/T 714—2007[S]. 2007. <a href="#user-content-fnref-13" data-footnote-backref="" aria-label="Back to reference 13" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>
+    </article>
+    <dialog class="image-lightbox" aria-label="Image preview">
+      <img alt="">
+    </dialog>
+  </main>
+  <footer>
+    <p>Questions or comments? <a href="mailto:hi@isweibin.com">Get in touch</a>.</p>
+  </footer>
+  <script src="/lightbox.js" defer></script>
+</body>
+</html>
