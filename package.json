@@ -19,10 +19,13 @@
   "private": true,
   "scripts": {
     "build": "bun build.ts",
-    "preview": "bun preview.ts"
+    "preview": "bun preview.ts",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
   "type": "module",
   "devDependencies": {
-    "@types/bun": "^1.4.2"
+    "@types/bun": "^1.4.2",
+    "prettier": "^3.9.8"
   }
 }
